@@ -7,6 +7,11 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   password: {
     type: String,
     required: true,
@@ -24,4 +29,6 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-export default mongoose.model("User", userSchema);
+
+const Users = mongoose.models.Users || mongoose.model("Users", userSchema);
+export default Users;
