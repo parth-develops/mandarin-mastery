@@ -2,13 +2,13 @@
 
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
- 
-export async function authenticate(
-  prevState,
-  formData
-) {
-  console.log("formdata", formData);
+import { connectToDatabase } from '../utils/db';
+import Users from './user.model';
+import bcryptjs from "bcryptjs";
+
+export async function authenticate(prevState, formData) {
   try {
+    await connectToDatabase();
     await signIn('credentials', formData);
   } catch (error) {
     if (error instanceof AuthError) {
@@ -20,5 +20,23 @@ export async function authenticate(
       }
     }
     throw error;
+  }
+}
+
+export async function createUser(prevState, formData) {
+  try {
+    console.log("formdata", formData);
+    await connectToDatabase();
+
+    const newUser = new Users({
+      username: formData.username,
+      email: formData.email,
+      password: await bcryptjs.hash(formData.password, 10), // Hash password for security
+    });
+    const resp = await newUser.save();
+    return resp;
+  } catch (error) {
+    console.error("Error creating user:", error.message);
+    return null;
   }
 }

@@ -6,22 +6,6 @@ import DiscordProvider from "next-auth/providers/discord";
 import bcryptjs from "bcryptjs";
 import Users from "@/app/lib/user.model";
 
-async function createUser(data) {
-    try {
-        await connectToDatabase();
-
-        const newUser = new Users({
-            email: data.email,
-            password: await bcryptjs.hash(data.password, 10), // Hash password for security
-        });
-        await newUser.save();
-        return newUser;
-    } catch (error) {
-        console.error("Error creating user:", error.message);
-        return null;
-    }
-}
-
 export const { auth, signIn, signOut } = NextAuth({
     ...authConfig,
     providers: [
@@ -42,17 +26,11 @@ export const { auth, signIn, signOut } = NextAuth({
                     console.log('discord exist');
                     // Existing Discord user, return user data
                     return user;
-                } else if (credentials.email) {
-                    console.log('new mail');
-                    // New email signup, call createUser server-side action
-                    const newUser = await createUser(credentials);
-                    return newUser;
                 }
-
-                throw new Error("Invalid email or password");
             }
         }),
         DiscordProvider({
+            name: "DISCORD",
             clientId: process.env.DISCORD_CLIENT_ID,
             clientSecret: process.env.DISCORD_CLIENT_SECRET,
             authorization: {
