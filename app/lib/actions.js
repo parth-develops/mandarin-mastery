@@ -34,7 +34,6 @@ export async function createUser(prevState, formData) {
       password: await bcryptjs.hash(formData.password, 10), // Hash password for security
     });
     const resp = await newUser.save();
-    return resp;
   } catch (error) {
     console.error("Error creating user:", error.message);
     return null;

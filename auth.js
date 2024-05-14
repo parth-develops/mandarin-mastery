@@ -19,7 +19,8 @@ export const { auth, signIn, signOut } = NextAuth({
                 if (user && user.password) {
                     console.log('user found');
                     // If email login, verify password
-                    if (await bcryptjs.compare(credentials.password, user.password)) {
+                    const passwordsMatch = bcryptjs.compare(credentials.password, user.password);
+                    if (passwordsMatch) {
                         return user;
                     }
                 } else if (user && user.discordId) {
