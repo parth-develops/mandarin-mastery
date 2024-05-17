@@ -1,15 +1,17 @@
 import NextAuth from 'next-auth';
-import { authConfig } from './auth.config';
 import { connectToDatabase } from "@/app/utils/db";
-import Credentials from 'next-auth/providers/credentials';
+import CredentialsProvider from 'next-auth/providers/credentials';
 import DiscordProvider from "next-auth/providers/discord";
 import bcryptjs from "bcryptjs";
 import Users from "@/app/lib/user.model";
 
-export const { auth, signIn, signOut } = NextAuth({
-    ...authConfig,
+export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
     providers: [
-        Credentials({
+        CredentialsProvider({
+            credentials: {
+                email: { label: "Email", type: "email" },
+                password: { label: "Password", type: "password" }
+            },
             async authorize(credentials) {
                 await connectToDatabase();
                 const user = await Users.findOne({
@@ -17,17 +19,17 @@ export const { auth, signIn, signOut } = NextAuth({
                 });
 
                 if (user && user.password) {
-                    console.log('user found');
                     // If email login, verify password
                     const passwordsMatch = bcryptjs.compare(credentials.password, user.password);
                     if (passwordsMatch) {
                         return user;
                     }
                 } else if (user && user.discordId) {
-                    console.log('discord exist');
                     // Existing Discord user, return user data
                     return user;
                 }
+
+                return null;
             }
         }),
         DiscordProvider({
@@ -35,10 +37,13 @@ export const { auth, signIn, signOut } = NextAuth({
             clientId: process.env.DISCORD_CLIENT_ID,
             clientSecret: process.env.DISCORD_CLIENT_SECRET,
             authorization: {
-                params: { scope: "identify guilds" }, // Request user info and guilds
+                params: { scope: "identify guilds" },
             },
         }),
     ],
+    pages: {
+        signIn: "signin",
+    },
     secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
         async jwt({ token, user }) {

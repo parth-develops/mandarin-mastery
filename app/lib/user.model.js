@@ -31,5 +31,11 @@ userSchema.pre("save", async function (next) {
 });
 
 
-const Users = mongoose.models.Users || mongoose.model("Users", userSchema);
+let Users;
+try {
+  Users = mongoose.model("Users");
+} catch (e) {
+  Users = mongoose.model("Users", userSchema);
+}
+
 export default Users;
