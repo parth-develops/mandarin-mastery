@@ -1,6 +1,5 @@
 import { auth } from "./auth";
 import {
-    privateRoutes,
     authRoutes,
     DEFAULT_REDIRECT_LOGIN_URL,
     DEFAULT_REDIRECT_HOME_URL
@@ -38,7 +37,7 @@ export default auth((req) => {
         return null;
     }
 
-    if (privateRoutes.includes(route)) {
+    if (!(route === "/" || route === "/signin" || route === "/signup")) {
         if (!isLoggedIn) {
             return Response.redirect(new URL(DEFAULT_REDIRECT_LOGIN_URL, url));
         }

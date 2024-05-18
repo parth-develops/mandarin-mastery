@@ -2,8 +2,8 @@ import NextAuth from 'next-auth';
 import { connectToDatabase } from "@/app/utils/db";
 import CredentialsProvider from 'next-auth/providers/credentials';
 import DiscordProvider from "next-auth/providers/discord";
-import bcryptjs from "bcryptjs";
 import Users from "@/app/lib/user.model";
+import bcryptjs from "bcryptjs";
 
 export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
     providers: [
@@ -18,11 +18,19 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
                     $or: [{ email: credentials.email }, { discordId: credentials.discordId }],
                 });
 
+                console.log(credentials);
+
                 if (user && user.password) {
                     // If email login, verify password
-                    const passwordsMatch = bcryptjs.compare(credentials.password, user.password);
+                    const hashPass = /^\$2y\$/.test(user.password) ? '$2a$' + user.password.slice(4) : user.password
+                    const passwordsMatch = await bcryptjs.compare(credentials.password, hashPass);
+                    console.log("pw", passwordsMatch);
                     if (passwordsMatch) {
+                        console.log("yep they match");
                         return user;
+                    } else {
+                        console.log("Passwords do not match");
+                        return null;
                     }
                 } else if (user && user.discordId) {
                     // Existing Discord user, return user data

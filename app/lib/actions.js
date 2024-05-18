@@ -28,10 +28,12 @@ export async function createUser(prevState, formData) {
     console.log("formdata", formData);
     await connectToDatabase();
 
+    const salt = bcryptjs.genSaltSync(10);
+
     const newUser = new Users({
       username: formData.username,
       email: formData.email,
-      password: await bcryptjs.hash(formData.password, 10), // Hash password for security
+      password: await bcryptjs.hash(formData.password, salt), // Hash password for security
     });
     const resp = await newUser.save();
   } catch (error) {
