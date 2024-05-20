@@ -14,17 +14,16 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
             },
             async authorize(credentials) {
                 await connectToDatabase();
-                const user = await Users.findOne({
-                    $or: [{ email: credentials.email }, { discordId: credentials.discordId }],
-                });
+                const user = await Users.findOne({ email: credentials.email });
 
-                console.log(credentials);
-                console.log("user pass", user.password);
+                console.log("Credentials received:", credentials);
+                console.log("User fetched:", user);
+                // console.log("user pass", user.password);
 
                 if (user && user.password) {
+
                     // If email login, verify password
                     const passwordsMatch = await bcrypt.compare(credentials.password, user.password);
-                    console.log("pw", passwordsMatch);
                     if (passwordsMatch) {
                         console.log("yep they match");
                         return user;
