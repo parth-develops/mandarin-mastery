@@ -19,6 +19,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
                 });
 
                 console.log(credentials);
+                console.log("user pass", user.password);
 
                 if (user && user.password) {
                     // If email login, verify password
