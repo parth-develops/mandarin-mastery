@@ -4,7 +4,7 @@ import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
 import { connectToDatabase } from '../utils/db';
 import Users from './user.model';
-import bcryptjs from "bcryptjs";
+import bcrypt from "bcrypt";
 
 export async function authenticate(prevState, formData) {
   try {
@@ -28,12 +28,12 @@ export async function createUser(prevState, formData) {
     console.log("formdata", formData);
     await connectToDatabase();
 
-    const salt = bcryptjs.genSaltSync(10);
+    const salt = bcrypt.genSaltSync(10);
 
     const newUser = new Users({
       username: formData.username,
       email: formData.email,
-      password: await bcryptjs.hash(formData.password, salt), // Hash password for security
+      password: await bcrypt.hash(formData.password, salt), // Hash password for security
     });
     const resp = await newUser.save();
   } catch (error) {

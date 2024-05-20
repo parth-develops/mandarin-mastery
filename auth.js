@@ -3,7 +3,7 @@ import { connectToDatabase } from "@/app/utils/db";
 import CredentialsProvider from 'next-auth/providers/credentials';
 import DiscordProvider from "next-auth/providers/discord";
 import Users from "@/app/lib/user.model";
-import bcryptjs from "bcryptjs";
+import bcrypt from "bcrypt";
 
 export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
     providers: [
@@ -22,8 +22,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
 
                 if (user && user.password) {
                     // If email login, verify password
-                    const hashPass = /^\$2y\$/.test(user.password) ? '$2a$' + user.password.slice(4) : user.password
-                    const passwordsMatch = await bcryptjs.compare(credentials.password, hashPass);
+                    const passwordsMatch = await bcrypt.compare(credentials.password, user.password);
                     console.log("pw", passwordsMatch);
                     if (passwordsMatch) {
                         console.log("yep they match");
