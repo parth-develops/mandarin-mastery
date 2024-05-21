@@ -1,7 +1,7 @@
 "use client"
 
 import { useFormState, useFormStatus } from 'react-dom';
-import { authenticate } from '@/app/lib/actions';
+import { authenticate, discordLogin } from '@/app/lib/actions';
 import { useForm } from "react-hook-form";
 
 export default function SignInForm() {
@@ -21,7 +21,7 @@ export default function SignInForm() {
             <input {...register("password", { required: true })} type="password" placeholder="Password" />
             {errors.password && <span className="error">Password is required</span>}
             <button type="submit">Sign In</button>
-            <button onClick={() => signIn("discord")}>Login with Discord</button>
+            <button type='button' onClick={() => discordLogin()}>Login with Discord</button>
             <div
                 className="flex h-8 items-end space-x-1"
                 aria-live="polite"

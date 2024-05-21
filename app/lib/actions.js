@@ -4,7 +4,7 @@ import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
 import { connectToDatabase } from '../utils/db';
 import Users from './user.model';
-import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 
 export async function authenticate(prevState, formData) {
   try {
@@ -23,17 +23,34 @@ export async function authenticate(prevState, formData) {
   }
 }
 
+export async function discordLogin() {
+  try {
+    await connectToDatabase();
+    await signIn('discord');
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'DiscordSignin':
+          return 'Invalid credentials.';
+        default:
+          return 'Something went wrong.';
+      }
+    }
+    throw error;
+  }
+}
+
 export async function createUser(prevState, formData) {
   try {
     console.log("formdata", formData);
     await connectToDatabase();
 
-    const salt = bcrypt.genSaltSync(10);
+    const salt = bcryptjs.genSaltSync(10);
 
     const newUser = new Users({
       username: formData.username,
       email: formData.email,
-      password: await bcrypt.hash(formData.password, salt), // Hash password for security
+      password: await bcryptjs.hash(formData.password, salt), // Hash password for security
     });
     const resp = await newUser.save();
   } catch (error) {

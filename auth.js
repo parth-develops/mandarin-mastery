@@ -3,7 +3,7 @@ import { connectToDatabase } from "@/app/utils/db";
 import CredentialsProvider from 'next-auth/providers/credentials';
 import DiscordProvider from "next-auth/providers/discord";
 import Users from "@/app/lib/user.model";
-import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 
 export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
     providers: [
@@ -14,7 +14,12 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
             },
             async authorize(credentials) {
                 await connectToDatabase();
-                const user = await Users.findOne({ email: credentials.email });
+
+                let user;
+
+                if (credentials.email) {
+                    user = await Users.findOne({ email: credentials.email });
+                }
 
                 console.log("Credentials received:", credentials);
                 console.log("User fetched:", user);
@@ -23,7 +28,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
                 if (user && user.password) {
 
                     // If email login, verify password
-                    const passwordsMatch = await bcrypt.compare(credentials.password, user.password);
+                    const passwordsMatch = await bcryptjs.compare(credentials.password, user.password);
                     if (passwordsMatch) {
                         console.log("yep they match");
                         return user;
@@ -40,7 +45,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
             }
         }),
         DiscordProvider({
-            name: "DISCORD",
+            // name: "DISCORD",
             clientId: process.env.DISCORD_CLIENT_ID,
             clientSecret: process.env.DISCORD_CLIENT_SECRET,
             authorization: {
