@@ -45,7 +45,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
             }
         }),
         DiscordProvider({
-            // name: "DISCORD",
+            // name: "DISCORDX",
             clientId: process.env.DISCORD_CLIENT_ID,
             clientSecret: process.env.DISCORD_CLIENT_SECRET,
             authorization: {
