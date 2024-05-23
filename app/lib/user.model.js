@@ -13,13 +13,16 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
   },
   discordId: {
     type: String,
     unique: true,
     sparse: true,
   },
+  userImg : {
+    type: String,
+    required: false,
+  }
 });
 
 let Users;

@@ -69,7 +69,23 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
             return session;
         },
         async signIn({ user, profile, account }) {
-            
+            if (account.provider === 'discord') {
+                await connectToDatabase();
+                const existingUser = await Users.findOne({ discordId: profile.id });
+
+                if (!existingUser) {
+                    const newUser = new Users({
+                        discordId: profile.id,
+                        username: user.name,
+                        email: user.email,
+                        userImg: user.image,
+                    });
+
+                    const resp = await newUser.save();
+                }
+                return true;
+            }
+            return false;
         }
     },
 });
