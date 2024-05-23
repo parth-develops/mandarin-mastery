@@ -40,6 +40,10 @@ export async function discordLogin() {
   }
 }
 
+export async function logout() {
+  await signOut();
+}
+
 export async function createUser(prevState, formData) {
   try {
     console.log("formdata", formData);
