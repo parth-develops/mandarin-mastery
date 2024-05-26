@@ -9,7 +9,7 @@ import bcryptjs from "bcryptjs";
 export async function authenticate(prevState, formData) {
   try {
     await connectToDatabase();
-    await signIn('credentials', formData);
+    await signIn('credentials', {...formData, redirectTo: "/dashboard"});
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {

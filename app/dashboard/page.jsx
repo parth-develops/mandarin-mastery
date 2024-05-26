@@ -1,4 +1,5 @@
 import { signOut, auth } from "@/auth";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export default async function Dashboard() {
@@ -11,7 +12,7 @@ export default async function Dashboard() {
       <form
         action={async () => {
           'use server';
-          await signOut();
+          await signOut({redirectTo: "/signin"});
         }}
       >
 

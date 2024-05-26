@@ -23,11 +23,8 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
 
                 console.log("Credentials received:", credentials);
                 console.log("User fetched:", user);
-                // console.log("user pass", user.password);
 
                 if (user && user.password) {
-
-                    // If email login, verify password
                     const passwordsMatch = await bcryptjs.compare(credentials.password, user.password);
                     if (passwordsMatch) {
                         console.log("yep they match");
@@ -36,11 +33,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
                         console.log("Passwords do not match");
                         return null;
                     }
-                } else if (user && user.discordId) {
-                    // Existing Discord user, return user data
-                    return user;
                 }
-
                 return null;
             }
         }),
@@ -85,6 +78,13 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
                 }
                 return true;
             }
+
+            if (account.provider === 'credentials') {
+                if (user) {
+                    return true;
+                }
+            }
+
             return false;
         }
     },
