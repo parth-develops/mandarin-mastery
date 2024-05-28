@@ -21,8 +21,6 @@ export default auth((req) => {
         return null;
     }
 
-    console.log(!!authRoutes.filter(checkAuthRoute).length);
-
     if (!!authRoutes.filter(checkAuthRoute).length) {
         if (isLoggedIn) {
             return Response.redirect(new URL(DEFAULT_REDIRECT_HOME_URL, url));

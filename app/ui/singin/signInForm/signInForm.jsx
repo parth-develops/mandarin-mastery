@@ -91,7 +91,7 @@ function Buttons() {
             <Button disabled={pending ? true : false} aria-disabled={pending} type="submit" className={`w-full ${pending ? "disabled:opacity-50" : ""}`}>
                 Login
             </Button>
-            <div className="relative">
+            <div className="relative my-2">
                 <div className="absolute inset-0 flex items-center">
                     <span className="w-full border-t" />
                 </div>

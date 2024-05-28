@@ -1,6 +1,6 @@
 "use server"
 
-import { signIn } from '@/auth';
+import { signIn, signOut } from '@/auth';
 import { AuthError } from 'next-auth';
 import { connectToDatabase } from '../utils/db';
 import Users from './user.model';
@@ -9,7 +9,7 @@ import bcryptjs from "bcryptjs";
 export async function authenticate(prevState, formData) {
   try {
     await connectToDatabase();
-    await signIn('credentials', {...formData, redirectTo: "/dashboard"});
+    await signIn('credentials', { ...formData, redirectTo: "/dashboard" });
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
@@ -41,7 +41,7 @@ export async function discordLogin() {
 }
 
 export async function logout() {
-  await signOut();
+  await signOut({ redirectTo: "/signin" });
 }
 
 export async function createUser(prevState, formData) {
