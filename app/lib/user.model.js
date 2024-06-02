@@ -19,11 +19,31 @@ const userSchema = new mongoose.Schema({
     unique: true,
     sparse: true,
   },
-  userImg : {
+  userImg: {
     type: String,
     required: false,
-  }
+  },
+  chapters: [{
+    chapter: { type: mongoose.Schema.Types.ObjectId, ref: 'chapters' },
+    isCompleted: { type: Boolean, default: false }
+  }],
 });
+
+userSchema.methods.enrollInChapter = function (chapterId) {
+  const enrolledChapter = this.chapters.find(c => c.chapter.equals(chapterId));
+  if (!enrolledChapter) {
+    this.chapters.push({ chapter: chapterId });
+    return this.save();
+  }
+};
+
+userSchema.methods.completeChapter = function (chapterId) {
+  const enrolledChapter = this.chapters.find(c => c.chapter.equals(chapterId));
+  if (enrolledChapter && !enrolledChapter.isCompleted) {
+    enrolledChapter.isCompleted = true;
+    return this.save();
+  }
+};
 
 let Users;
 try {
