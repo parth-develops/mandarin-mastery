@@ -1,10 +1,13 @@
 import { fetchChapters } from "@/app/lib/data";
+import { auth } from "@/auth";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default async function Chapters() {
     const chapters = await fetchChapters();
-    console.log(chapters);
+
+    const session = await auth();
+    // console.log(session);
 
     return (
         <div className="flex flex-col flex-1">
