@@ -5,9 +5,10 @@ import Link from "next/link";
 
 export default async function Chapters() {
     const chapters = await fetchChapters();
+    const { user } = await auth();
 
-    const session = await auth();
-    // console.log(session);
+    const enrollUser = (userId, chapterId) => {
+    }
 
     return (
         <div className="flex flex-col flex-1">
@@ -18,7 +19,7 @@ export default async function Chapters() {
                         <div key={chapter.id}>
                             <h3 className="mb-2">{chapter.id} {chapter.title}</h3>
                             <p className="mb-2">Description</p>
-                            <Button>
+                            <Button type="button">
                                 <Link href={`/dashboard/chapters/${chapter.slug}`}>
                                     Enroll
                                 </Link>

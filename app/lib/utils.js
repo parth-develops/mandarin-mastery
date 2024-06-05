@@ -1,0 +1,16 @@
+import Users from './user.model';
+
+export async function enrollUserInChapter(userId, chapterId) {
+    try {
+        // Fetch the user by ID
+        const user = await Users.findById(userId);
+
+        // If the user is found, enroll them in the chapter
+        if (user) {
+            await user.enrollInChapter(chapterId);
+            console.log(`User ${user.username} enrolled in chapter with ID: ${chapterId}`);
+        }
+    } catch (err) {
+        console.error('Error enrolling user in chapter:', err);
+    }
+}

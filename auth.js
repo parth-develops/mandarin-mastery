@@ -28,7 +28,14 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
                     const passwordsMatch = await bcryptjs.compare(credentials.password, user.password);
                     if (passwordsMatch) {
                         console.log("yep they match");
-                        return user;
+                        console.log("the user", user);
+
+                        return {
+                            id: user._id.toString(),
+                            email: user.email,
+                            username: user.username,
+                            chapters: user.chapters,
+                        };
                     } else {
                         console.log("Passwords do not match");
                         return null;
@@ -53,13 +60,16 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
     callbacks: {
         async jwt({ token, user }) {
             if (user) {
-                token.user = user;
+                token.id = user.id;
+                token.email = user.email;
+                token.username = user.username;
             }
             return token;
         },
         async session({ session, token }) {
-            session.user.id = token.user.id;
-            console.log("token", token);
+            session.user.id = token.id;
+            session.user.email = token.email;
+            session.user.username = token.username;
             return session;
         },
         async signIn({ user, profile, account }) {
