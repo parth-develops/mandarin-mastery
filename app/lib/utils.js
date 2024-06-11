@@ -1,7 +1,11 @@
+"use server";
+
+import { connectToDatabase } from '../utils/db';
 import Users from './user.model';
 
 export async function enrollUserInChapter(userId, chapterId) {
     try {
+        await connectToDatabase();
         // Fetch the user by ID
         const user = await Users.findById(userId);
 

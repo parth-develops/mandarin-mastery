@@ -3,7 +3,7 @@ import Chapters from "./chapters.model";
 
 export const fetchChapters = async () => {
     try {
-        connectToDatabase();
+        await connectToDatabase();
 
         const chapters = await Chapters.find({}, "slug title").exec();
         return chapters;
@@ -14,7 +14,7 @@ export const fetchChapters = async () => {
 
 export const fetchChapterBySlug = async (chapterSlug) => {
     try {
-        connectToDatabase();
+        await connectToDatabase();
 
         const chapter = await Chapters.findOne({ slug: chapterSlug }).exec();
         return chapter;
