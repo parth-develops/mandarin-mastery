@@ -10,13 +10,13 @@ export default function ChapterCards({ chapters, user }) {
             <div key={chapter.id}>
                 <h3 className="mb-2">{chapter.id} {chapter.title}</h3>
                 <p className="mb-2">Description</p>
-                <Button type="button"
-                    onClick={() => enrollUserInChapter(user.id, chapter.id)}
-                >
-                    <Link href={`/dashboard/chapters/${chapter.slug}`}>
+                <Link href={`/dashboard/chapters/${chapter.slug}`} className="w-100">
+                    <Button type="button"
+                        onClick={() => enrollUserInChapter(user.id, chapter.id)}
+                    >
                         Enroll
-                    </Link>
-                </Button>
+                    </Button>
+                </Link>
             </div>
         )
     )
