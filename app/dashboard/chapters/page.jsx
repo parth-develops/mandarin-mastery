@@ -8,6 +8,7 @@ export default async function Chapters() {
 
     const plainChapters = chapters.map(chapter => {
         const plainChapter = chapter.toObject();
+        
         return {
             id: plainChapter._id.toString(),
             title: plainChapter.title,

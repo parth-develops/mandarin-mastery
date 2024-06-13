@@ -27,7 +27,7 @@ export default async function ChapterPage({ params }) {
         <div className="flex flex-col flex-1">
             <h1 className="text-lg font-semibold md:text-2xl mb-4">{chapter.title}</h1>
             <div className="flex items-center mb-2"><TbBulb size={24} className="mr-1" /> Hover the chinese text to see the pinyin</div>
-            <div className="cards p-4 flex-1 flex gap-4 border rounded-lg shadow-sm">
+            <div className="cards p-4 flex-auto h-0 flex gap-4 border rounded-lg shadow-sm">
 
                 <Table className="mb-5">
                     <TableBody>

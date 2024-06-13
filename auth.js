@@ -63,6 +63,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
                 token.id = user.id;
                 token.email = user.email;
                 token.username = user.username;
+                token.chapters = user.chapters;
             }
             return token;
         },
@@ -70,6 +71,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
             session.user.id = token.id;
             session.user.email = token.email;
             session.user.username = token.username;
+            session.user.chapters = token.chapters;
             return session;
         },
         async signIn({ user, profile, account }) {
