@@ -4,15 +4,13 @@ import { enrollUserInChapter } from "@/app/lib/utils";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-export default function ChapterCards({ chapters, user }) {
+export default function ChapterCards({ chapters, user, userChapters }) {
     const btnText = (chapterId) => {
         let string;
 
-        user.chapters.forEach((element) => {
-            console.log(element);
+        userChapters.forEach((element) => {
             if (element.isCompleted) {
                 string = "Explore Again";
-                return;
             } else {
                 string = element.chapter === chapterId ? "Resume" : "Enroll";
             }
@@ -23,7 +21,6 @@ export default function ChapterCards({ chapters, user }) {
 
     return (
         chapters.map(chapter => {
-            console.log(user);
             return (
                 <div key={chapter.id}>
                     <h3 className="mb-2">{chapter.title}</h3>

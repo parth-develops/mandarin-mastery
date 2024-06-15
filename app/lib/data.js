@@ -1,5 +1,6 @@
 import { connectToDatabase } from "../utils/db";
 import Chapters from "./chapters.model";
+import Users from "./user.model";
 
 export const fetchChapters = async () => {
     try {
@@ -20,5 +21,17 @@ export const fetchChapterBySlug = async (chapterSlug) => {
         return chapter;
     } catch (error) {
         console.error(error);
+    }
+}
+
+export const fetchUserChapter = async (userId) => {
+    try {
+        await connectToDatabase();
+
+        const userChapters = await Users.findById(userId, 'chapters').exec();
+
+        return userChapters ? userChapters : [];
+    } catch (error) {
+        console.error('Error fetching user chapters:', err);
     }
 }
