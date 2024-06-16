@@ -1,7 +1,9 @@
 "use server";
 
+import { revalidatePath } from 'next/cache';
 import { connectToDatabase } from '../utils/db';
 import Users from './user.model';
+import { redirect } from 'next/navigation';
 
 export async function enrollUserInChapter(userId, chapterId) {
     try {
@@ -20,7 +22,6 @@ export async function enrollUserInChapter(userId, chapterId) {
 }
 
 export async function markChapterAsComplete(userId, chapterId) {
-    console.log("we here");
     try {
         await connectToDatabase();
         // Fetch the user by ID
@@ -34,4 +35,7 @@ export async function markChapterAsComplete(userId, chapterId) {
     } catch (err) {
         console.error('Error completing chapter:', err);
     }
+
+    revalidatePath("/dashboard/chapters");
+    redirect("/dashboard/chapters");
 }

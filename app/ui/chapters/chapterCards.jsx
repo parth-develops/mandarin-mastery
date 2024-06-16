@@ -3,8 +3,11 @@
 import { enrollUserInChapter } from "@/app/lib/utils";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+// import { useSession } from "next-auth/react";
 
 export default function ChapterCards({ chapters, user, userChapters }) {
+    // const { data: session, status, update } = useSession();
+    // console.log(session);
     const btnText = (chapterId) => {
         let string;
 

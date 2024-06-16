@@ -34,6 +34,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
                             id: user._id.toString(),
                             email: user.email,
                             username: user.username,
+                            userChapters: user.chapters,
                         };
                     } else {
                         console.log("Passwords do not match");
@@ -62,6 +63,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
                 token.id = user.id;
                 token.email = user.email;
                 token.username = user.username;
+                token.userChapters = user.userChapters;
             }
             return token;
         },
@@ -69,6 +71,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
             session.user.id = token.id;
             session.user.email = token.email;
             session.user.username = token.username;
+            session.user.userChapters = token.userChapters;
             return session;
         },
         async signIn({ user, profile, account }) {
