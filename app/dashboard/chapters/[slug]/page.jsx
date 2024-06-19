@@ -1,4 +1,4 @@
-import { fetchChapterBySlug } from "@/app/lib/data"
+import { fetchChapterBySlug, fetchUserChapter } from "@/app/lib/data"
 import ChapterCompleteBtn from "@/app/ui/chapters/chapterCompleteBtn";
 import { auth } from "@/auth";
 import {
@@ -25,6 +25,7 @@ export default async function ChapterPage({ params }) {
     const { user } = await auth();
     const chapter = await fetchChapterBySlug(slug);
     const chapterContent = chapter.content.toObject();
+    const userChapters = await fetchUserChapter(user.id);
 
     return (
         <div className="flex flex-col flex-1">

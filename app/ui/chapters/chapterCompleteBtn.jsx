@@ -3,26 +3,28 @@
 import { Button } from "@/components/ui/button";
 import { FaCheckCircle } from "react-icons/fa";
 import { markChapterAsComplete } from "@/app/lib/utils";
-import { useSession } from "next-auth/react";
+import { Badge } from "@/components/ui/badge"
 
-export default function ChapterCompleteBtn({ userId, chapterId }) {
-    const { data: session, status, update } = useSession();
-    const currentUserChapter = session.user.userChapters.find(chap => chap.chapter === chapterId);
+export default function ChapterCompleteBtn({ userId, chapterId, userChapters }) {
+    // const currentUserChapterIndex = userChapters.findIndex(chap => chap.chapter === chapterId);
+    // const currentUserChapter = userChapters[currentUserChapterIndex];
+    // console.log("curr chap", currentUserChapter);
 
-    const completeChapter = async (userId, chapterId) => {
-        await markChapterAsComplete(userId, chapterId);
-
-        if (currentUserChapter) {
-            currentUserChapter.isCompleted = true;
-            await update(session);
-        }
-    }
+    // if (currentUserChapter.isCompleted) {
+    //     return (
+    //         <Badge className="ml-auto" title="You have completed this chapter" variant="success">Completed</Badge>
+    //     )
+    // } else {
+    // const completeChapter = async (userId, chapterId) => {
+    //     await markChapterAsComplete(userId, chapterId);
+    // }
 
     return (
         <Button className="ml-auto" title="Mark this chapter as completed"
-            onClick={() => completeChapter(userId, chapterId)}
+            // onClick={() => completeChapter(userId, chapterId)}
         >
             <FaCheckCircle className="mr-1" /> Mark as completed
         </Button>
     )
+    // }
 }
