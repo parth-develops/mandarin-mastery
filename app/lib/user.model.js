@@ -25,7 +25,8 @@ const userSchema = new mongoose.Schema({
   },
   chapters: [{
     chapter: { type: mongoose.Schema.Types.ObjectId, ref: 'chapters' },
-    isCompleted: { type: Boolean, default: false }
+    isCompleted: { type: Boolean, default: false },
+    slug: { type: String }
   }],
 });
 

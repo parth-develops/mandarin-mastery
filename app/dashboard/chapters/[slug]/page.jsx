@@ -24,8 +24,8 @@ export default async function ChapterPage({ params }) {
     const { slug } = params;
     const { user } = await auth();
     const chapter = await fetchChapterBySlug(slug);
+    
     const chapterContent = chapter.content.toObject();
-    const userChapters = await fetchUserChapter(user.id);
 
     return (
         <div className="flex flex-col flex-1">

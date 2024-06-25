@@ -61,13 +61,21 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
     },
     secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
-        async jwt({ token, user }) {
+        async jwt({ token, user, trigger, session }) {
             if (user) {
                 token.id = user.id;
                 token.email = user.email;
                 token.username = user.username;
                 token.userChapters = user.userChapters;
             }
+
+            if (trigger === "update" && session) {
+                return {
+                    ...token,
+                    ...session.user
+                };
+            };
+
             return token;
         },
         async session({ session, token }) {
