@@ -5,7 +5,7 @@ import { connectToDatabase } from '../utils/db';
 import Users from './user.model';
 import { redirect } from 'next/navigation';
 
-export async function enrollUserInChapter(userId, chapterId) {
+export async function enrollUserInChapter(userId, chapterId, chapterSlug) {
     try {
         await connectToDatabase();
         // Fetch the user by ID
@@ -13,7 +13,7 @@ export async function enrollUserInChapter(userId, chapterId) {
 
         // If the user is found, enroll them in the chapter
         if (user) {
-            await user.enrollInChapter(chapterId);
+            await user.enrollInChapter(chapterId, chapterSlug);
             console.log(`User ${user.username} enrolled in chapter with ID: ${chapterId}`);
         }
     } catch (err) {

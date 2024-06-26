@@ -1,3 +1,5 @@
+"use server"
+
 import { connectToDatabase } from "../utils/db";
 import Chapters from "./chapters.model";
 import Users from "./user.model";
@@ -32,6 +34,37 @@ export const fetchUserChapter = async (userId) => {
 
         return userChapters ? userChapters : [];
     } catch (error) {
-        console.error('Error fetching user chapters:', err);
+        console.error('Error fetching user chapters:', error);
+    }
+}
+
+export const fetchUserData = async (userId) => {
+    try {
+        await connectToDatabase();
+        const user = await Users.findById(userId);
+
+        if (!user) {
+            return null;
+        }
+
+        const plainUser = user.toObject();
+        const plainUserChapters = plainUser.chapters.map(chapter => {
+    
+            return {
+                chapter: chapter.chapter.toString(),
+                isCompleted: chapter.isCompleted,
+                slug: chapter.slug,
+                id: chapter._id.toString()
+            };
+        }); 
+
+        return {
+            id: plainUser._id.toString(),
+            email: plainUser.email,
+            username: plainUser.username,
+            userChapters: plainUserChapters,
+        }
+    } catch (error) {
+        console.error('Error fetching user data:', error);
     }
 }

@@ -26,14 +26,14 @@ const userSchema = new mongoose.Schema({
   chapters: [{
     chapter: { type: mongoose.Schema.Types.ObjectId, ref: 'chapters' },
     isCompleted: { type: Boolean, default: false },
-    slug: { type: String }
+    slug: { type: String, default: "" }
   }],
 });
 
-userSchema.methods.enrollInChapter = function (chapterId) {
+userSchema.methods.enrollInChapter = function (chapterId, chapterSlug) {
   const enrolledChapter = this.chapters.find(c => c.chapter.equals(chapterId));
   if (!enrolledChapter) {
-    this.chapters.push({ chapter: chapterId });
+    this.chapters.push({ chapter: chapterId, slug: chapterSlug });
     return this.save();
   }
 };
