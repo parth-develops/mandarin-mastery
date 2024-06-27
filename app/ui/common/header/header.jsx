@@ -109,8 +109,8 @@ export default function Header() {
                     <DropdownMenuItem>Support</DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem>
-                        <form action={logout}>
-                            <button>Logout</button>
+                        <form action={logout} className="w-full">
+                            <button className="w-full" >Logout</button>
                         </form>
                     </DropdownMenuItem>
                 </DropdownMenuContent>

@@ -1,9 +1,10 @@
 "use client"
 
+import { fetchUserData } from "@/app/lib/data";
 import { enrollUserInChapter } from "@/app/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
-import Link from "next/link";
+import { useRouter } from 'next/navigation'
 
 export default function ChapterCards({ chapters, user }) {
     return (
@@ -16,24 +17,55 @@ export default function ChapterCards({ chapters, user }) {
 }
 
 function ChapterCard({ chapter, user }) {
-    const { data: session, status } = useSession();
+    const { data: session, status, update } = useSession();
+    const router = useRouter()
 
     if (status === "authenticated") {
         let userChapters = session?.user?.userChapters;
 
-        const btnText = () => {
+        const renderButton = () => {
             if (userChapters) {
                 const currentUserChapter = userChapters.find((element) => {
                     return element.chapter === chapter.id;
                 });
 
                 if (!currentUserChapter) {
-                    return "Enroll";
+                    return <Button type="button"
+                        onClick={async () => {
+                            await enrollUserInChapter(user.id, chapter.id, chapter.slug);
+                            const newUserSession = await fetchUserData(user.id);
+                            console.log("newUserSession", newUserSession);
+                            await update({ ...session, user: newUserSession });
+                            router.push(`/dashboard/chapters/${chapter.slug}`)
+                        }}
+                    >
+                        Enroll
+                    </Button>
                 }
 
-                return currentUserChapter.isCompleted ? "Explore Again" : "Resume"
+                return currentUserChapter.isCompleted ?
+                    <Button type="button"
+                        onClick={() => router.push(`/dashboard/chapters/${chapter.slug}`)}
+                    >
+                        Explore Again
+                    </Button> :
+                    <Button type="button"
+                        onClick={() => router.push(`/dashboard/chapters/${chapter.slug}`)}
+                    >
+                        Resume
+                    </Button>
             } else {
-                return "Enroll";
+                return <Button type="button"
+                    onClick={async () => {
+                        await enrollUserInChapter(user.id, chapter.id, chapter.slug);
+                        const newUserSession = await fetchUserData(user.id);
+                        console.log("newUserSession", newUserSession);
+                        await update({ ...session, user: newUserSession });
+                        router.push(`/dashboard/chapters/${chapter.slug}`)
+                    }}
+                >
+                    Enroll
+                </Button>
             }
         }
 
@@ -41,13 +73,7 @@ function ChapterCard({ chapter, user }) {
             <div key={chapter.id}>
                 <h3 className="mb-2">{chapter.title}</h3>
                 <p className="mb-2">Description</p>
-                <Link href={`/dashboard/chapters/${chapter.slug}`} className="w-100">
-                    <Button type="button"
-                        onClick={() => enrollUserInChapter(user.id, chapter.id)}
-                    >
-                        {btnText()}
-                    </Button>
-                </Link>
+                {renderButton()}
             </div>
         )
     } else {
