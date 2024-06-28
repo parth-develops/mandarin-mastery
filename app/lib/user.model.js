@@ -1,33 +1,26 @@
 import mongoose from "mongoose";
 
+const quizResultSchema = new mongoose.Schema({
+  quiz: { type: mongoose.Schema.Types.ObjectId, ref: "quizzes" },
+  isTaken: { type: Boolean, default: false },
+  isPassed: { type: Boolean, default: false },
+  score: { type: Number, default: 0 },
+});
+
 const userSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-  },
-  discordId: {
-    type: String,
-    unique: true,
-    sparse: true,
-  },
-  userImg: {
-    type: String,
-    required: false,
-  },
-  chapters: [{
-    chapter: { type: mongoose.Schema.Types.ObjectId, ref: 'chapters' },
-    isCompleted: { type: Boolean, default: false },
-    slug: { type: String, default: "" }
-  }],
+  email: { type: String, required: true, unique: true },
+  username: { type: String, required: true, unique: true },
+  password: { type: String },
+  discordId: { type: String, unique: true, sparse: true },
+  userImg: { type: String },
+  chapters: [
+    {
+      chapter: { type: mongoose.Schema.Types.ObjectId, ref: 'chapters' },
+      isCompleted: { type: Boolean, default: false },
+      slug: { type: String, default: "" }
+    }
+  ],
+  quizzes: [quizResultSchema],
 });
 
 userSchema.methods.enrollInChapter = function (chapterId, chapterSlug) {
@@ -44,6 +37,18 @@ userSchema.methods.completeChapter = function (chapterId) {
     enrolledChapter.isCompleted = true;
     return this.save();
   }
+};
+
+userSchema.methods.recordQuizResult = function (quizId, isPassed, score) {
+  const quizResult = this.quizzes.find(q => q.quiz.equals(quizId));
+  if (!quizResult) {
+    this.quizzes.push({ quiz: quizId, isTaken: true, isPassed, score });
+  } else {
+    quizResult.isTaken = true;
+    quizResult.isPassed = isPassed;
+    quizResult.score = score;
+  }
+  return this.save();
 };
 
 let Users;
