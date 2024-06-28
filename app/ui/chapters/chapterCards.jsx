@@ -24,23 +24,20 @@ function ChapterCard({ chapter, user }) {
         let userChapters = session?.user?.userChapters;
 
         const renderButton = () => {
+            const handleEnroll = async () => {
+                await enrollUserInChapter(user.id, chapter.id, chapter.slug);
+                const newUserSession = await fetchUserData(user.id);
+                await update({ ...session, user: newUserSession });
+                router.push(`/dashboard/chapters/${chapter.slug}`)
+            }
+
             if (userChapters) {
                 const currentUserChapter = userChapters.find((element) => {
                     return element.chapter === chapter.id;
                 });
 
                 if (!currentUserChapter) {
-                    return <Button type="button"
-                        onClick={async () => {
-                            await enrollUserInChapter(user.id, chapter.id, chapter.slug);
-                            const newUserSession = await fetchUserData(user.id);
-                            console.log("newUserSession", newUserSession);
-                            await update({ ...session, user: newUserSession });
-                            router.push(`/dashboard/chapters/${chapter.slug}`)
-                        }}
-                    >
-                        Enroll
-                    </Button>
+                    return <Button type="button" onClick={handleEnroll}>Enroll</Button>
                 }
 
                 return currentUserChapter.isCompleted ?
@@ -55,17 +52,7 @@ function ChapterCard({ chapter, user }) {
                         Resume
                     </Button>
             } else {
-                return <Button type="button"
-                    onClick={async () => {
-                        await enrollUserInChapter(user.id, chapter.id, chapter.slug);
-                        const newUserSession = await fetchUserData(user.id);
-                        console.log("newUserSession", newUserSession);
-                        await update({ ...session, user: newUserSession });
-                        router.push(`/dashboard/chapters/${chapter.slug}`)
-                    }}
-                >
-                    Enroll
-                </Button>
+                return <Button type="button" onClick={handleEnroll}>Enroll</Button>
             }
         }
 
