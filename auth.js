@@ -35,6 +35,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
                             email: user.email,
                             username: user.username,
                             userChapters: user.chapters,
+                            quizzes: user.quizzes,
                         };
                     } else {
                         console.log("Passwords do not match");
@@ -67,6 +68,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
                 token.email = user.email;
                 token.username = user.username;
                 token.userChapters = user.userChapters;
+                token.quizzes = user.quizzes;
             }
 
             if (trigger === "update" && session) {
@@ -83,6 +85,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
             session.user.email = token.email;
             session.user.username = token.username;
             session.user.userChapters = token.userChapters;
+            session.user.quizzes = token.quizzes;
             return session;
         },
         async signIn({ user, profile, account }) {

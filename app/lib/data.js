@@ -2,6 +2,7 @@
 
 import { connectToDatabase } from "../utils/db";
 import Chapters from "./chapters.model";
+import Quizzes from "./quiz.model";
 import Users from "./user.model";
 
 export const fetchChapters = async () => {
@@ -48,23 +49,55 @@ export const fetchUserData = async (userId) => {
         }
 
         const plainUser = user.toObject();
-        const plainUserChapters = plainUser.chapters.map(chapter => {
-    
-            return {
-                chapter: chapter.chapter.toString(),
-                isCompleted: chapter.isCompleted,
-                slug: chapter.slug,
-                id: chapter._id.toString()
-            };
-        }); 
+        const plainUserChapters = plainUser.chapters.map(chapter => ({
+            chapter: chapter.chapter.toString(),
+            isCompleted: chapter.isCompleted,
+            slug: chapter.slug,
+            id: chapter._id.toString()
+        }));
+
+        const plainQuizzes = plainUser.quizzes.map(quiz => ({
+            quiz: quiz.quiz.toString(),
+            isTaken: quiz.isTaken,
+            isPassed: quiz.isPassed,
+            score: quiz.score,
+        }));
 
         return {
             id: plainUser._id.toString(),
             email: plainUser.email,
             username: plainUser.username,
             userChapters: plainUserChapters,
+            quizzes: plainQuizzes,
         }
     } catch (error) {
         console.error('Error fetching user data:', error);
+    }
+}
+
+export const fetchQuizzes = async () => {
+    try {
+        await connectToDatabase();
+        const quizzes = await Quizzes.find({}).lean().exec();
+
+        if (!quizzes) {
+            return null;
+        }
+
+        const plainQuizzes = quizzes.map((quiz) => {
+            return {
+                id: quiz._id.toString(),
+                chapter: quiz.chapter,
+                questions: quiz.questions.map(question => {
+                    return {
+                        ...question
+                    }
+                })
+            }
+        })
+
+        return plainQuizzes;
+    } catch (error) {
+        console.error('Error fetching quizzes: ', error);
     }
 }

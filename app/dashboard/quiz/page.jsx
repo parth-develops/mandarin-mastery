@@ -1,7 +1,13 @@
-export default function Quiz() {
+import { fetchQuizzes } from "@/app/lib/data";
+import QuizUi from "@/app/ui/quiz/quizUi";
+
+export default async function Quiz() {
+  const quizData = await fetchQuizzes();
+  console.log("quizData", quizData);
+
   return (
     <div className="flex items-center">
-        <h1 className="text-lg font-semibold md:text-2xl">Quiz</h1>
-      </div>
+      <QuizUi quiz={quizData} />
+    </div>
   )
 }
