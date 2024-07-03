@@ -9,7 +9,7 @@ import { fetchUserData } from '@/app/lib/data';
 
 export default function QuizUi({ quiz }) {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const [selectedAnswers, setSelectedAnswers] = useState(Array(quiz[0].questions.length).fill(null));
+    const [selectedAnswers, setSelectedAnswers] = useState(Array(quiz.questions.length).fill(null));
     const [score, setScore] = useState(null);
     const { data: session, status, update } = useSession();
 
@@ -29,7 +29,7 @@ export default function QuizUi({ quiz }) {
 
     const handleSubmit = async () => {
         let correctAnswers = 0;
-        quiz[0].questions.forEach((question, index) => {
+        quiz.questions.forEach((question, index) => {
             const correctAnswer = question.answers.find(answer => answer.isCorrect);
             if (correctAnswer && selectedAnswers[index] === correctAnswer.text) {
                 correctAnswers++;
@@ -37,19 +37,19 @@ export default function QuizUi({ quiz }) {
         });
         setScore(correctAnswers);
 
-        const isPassed = (correctAnswers / quiz[0].questions.length) === 1;
+        const isPassed = (correctAnswers / quiz.questions.length) === 1;
 
-        await recordQuizResult(session.user.id, quiz[0].id, isPassed, correctAnswers);
+        await recordQuizResult(session.user.id, quiz.id, isPassed, correctAnswers);
         const newUserSession = await fetchUserData(session.user.id);
         await update({ ...session, user: newUserSession });
     };
 
-    const question = quiz[0].questions[currentQuestionIndex];
+    const question = quiz.questions[currentQuestionIndex];
 
     return (
         <div className="flex">
             <div className="w-1/2 p-8 bg-blue-100">
-                <h2 className="text-2xl font-bold">Step {currentQuestionIndex + 1}/{quiz[0].questions.length}</h2>
+                <h2 className="text-2xl font-bold">Step {currentQuestionIndex + 1}/{quiz.questions.length}</h2>
                 <p className="mt-4 text-xl">{question.questionText}</p>
             </div>
             <div className="w-1/2 p-8">
@@ -77,7 +77,7 @@ export default function QuizUi({ quiz }) {
                     >
                         Previous
                     </button>
-                    {currentQuestionIndex < quiz[0].questions.length - 1 ? (
+                    {currentQuestionIndex < quiz.questions.length - 1 ? (
                         <button
                             onClick={handleNext}
                             className="px-4 py-2 bg-blue-500 text-white rounded"
@@ -95,7 +95,7 @@ export default function QuizUi({ quiz }) {
                 </div>
                 {score !== null && (
                     <div className="mt-8">
-                        <h3 className="text-2xl">Your score: {score} / {quiz[0].questions.length}</h3>
+                        <h3 className="text-2xl">Your score: {score} / {quiz.questions.length}</h3>
                     </div>
                 )}
             </div>

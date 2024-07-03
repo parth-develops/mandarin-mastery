@@ -1,4 +1,4 @@
-import { fetchChapterBySlug, fetchUserChapter } from "@/app/lib/data"
+import { fetchChapterBySlug } from "@/app/lib/data"
 import ChapterCompleteBtn from "@/app/ui/chapters/chapterCompleteBtn";
 import { auth } from "@/auth";
 import {

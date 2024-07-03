@@ -15,6 +15,7 @@ const questionSchema = new mongoose.Schema({
 const quizSchema = new mongoose.Schema({
     chapter: { type: mongoose.Schema.Types.ObjectId, ref: "chapters", required: true },
     questions: [questionSchema],
+    slug: { type: String, required: true },
 });
 
 let Quizzes;

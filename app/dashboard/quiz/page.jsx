@@ -1,5 +1,5 @@
 import { fetchQuizzes } from "@/app/lib/data";
-import QuizUi from "@/app/ui/quiz/quizUi";
+import QuizCards from "@/app/ui/quiz/quizCards";
 
 export default async function Quiz() {
   const quizData = await fetchQuizzes();
@@ -7,7 +7,7 @@ export default async function Quiz() {
 
   return (
     <div className="flex items-center">
-      <QuizUi quiz={quizData} />
+      <QuizCards quiz={quizData} />
     </div>
   )
 }
