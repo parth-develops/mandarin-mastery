@@ -46,6 +46,6 @@ export async function recordQuizResult(userId, quizId, isPassed, score) {
             console.log(`User ${user.username} took quiz with ID: ${quizId}`);
         }
     } catch (error) {
-        console.error('Error recording quiz result:', err);
+        console.error('Error recording quiz result:', error);
     }
 }

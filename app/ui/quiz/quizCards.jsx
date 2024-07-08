@@ -5,56 +5,43 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 export default function QuizCards({ quizzes }) {
-    quizzes.map(quiz => {
-        return (
-            <QuizCard key={quiz.id} quiz={quiz} />
-        )
-    })
+    return (
+        quizzes.map(quiz => {
+            return (
+                <QuizCard key={quiz.id} quiz={quiz} />
+            )
+        })
+    )
 }
 
-function QuizCard() {
-    const { data: session, status, update } = useSession();
-    const router = useRouter()
+function QuizCard({ quiz }) {
+    console.log(quiz);
+    const { data: session, status } = useSession();
+    const router = useRouter();
 
     if (status === "authenticated") {
-        let userChapters = session?.user?.userChapters;
+        let userQuizzes = session?.user?.quizzes;
 
         const renderButton = () => {
-            const handleEnroll = async () => {
-                await enrollUserInChapter(user.id, chapter.id, chapter.slug);
-                const newUserSession = await fetchUserData(user.id);
-                await update({ ...session, user: newUserSession });
-                router.push(`/dashboard/chapters/${chapter.slug}`)
-            }
-
-            if (userChapters) {
-                const currentUserChapter = userChapters.find((element) => {
-                    return element.chapter === chapter.id;
+            if (userQuizzes) {
+                const currentUserQuiz = userQuizzes.find((element) => {
+                    return element.quiz === quiz.id;
                 });
 
-                if (!currentUserChapter) {
-                    return <Button type="button" onClick={handleEnroll}>Enroll</Button>
+                if (!currentUserQuiz) {
+                    return <Button type="button" onClick={() => router.push(`/dashboard/quiz/${quiz.slug}`)}>Take Quiz</Button>
                 }
 
-                return currentUserChapter.isCompleted ?
-                    <Button type="button"
-                        onClick={() => router.push(`/dashboard/chapters/${chapter.slug}`)}
-                    >
-                        Explore Again
-                    </Button> :
-                    <Button type="button"
-                        onClick={() => router.push(`/dashboard/chapters/${chapter.slug}`)}
-                    >
-                        Resume
-                    </Button>
+                return currentUserQuiz.isTaken &&
+                    <Button type="button" onClick={() => router.push(`/dashboard/quiz/${quiz.slug}`)}>Take Again</Button>
             } else {
-                return <Button type="button" onClick={handleEnroll}>Enroll</Button>
+                return <Button type="button" onClick={() => router.push(`/dashboard/quiz/${quiz.slug}`)}>Take Quiz</Button>
             }
         }
 
         return (
-            <div key={chapter.id}>
-                <h3 className="mb-2">{chapter.title}</h3>
+            <div key={quiz.id}>
+                <h3 className="mb-2">{quiz.title}</h3>
                 <p className="mb-2">Description</p>
                 {renderButton()}
             </div>

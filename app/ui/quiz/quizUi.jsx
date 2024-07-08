@@ -8,10 +8,13 @@ import { useSession } from 'next-auth/react';
 import { fetchUserData } from '@/app/lib/data';
 
 export default function QuizUi({ quiz }) {
+    console.log(quiz);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const [selectedAnswers, setSelectedAnswers] = useState(Array(quiz.questions.length).fill(null));
+    const [selectedAnswers, setSelectedAnswers] = useState(Array(quiz?.questions.length).fill(null));
     const [score, setScore] = useState(null);
     const { data: session, status, update } = useSession();
+
+    console.log(selectedAnswers);
 
     const handleAnswerChange = (answer) => {
         const newAnswers = [...selectedAnswers];
@@ -44,7 +47,11 @@ export default function QuizUi({ quiz }) {
         await update({ ...session, user: newUserSession });
     };
 
-    const question = quiz.questions[currentQuestionIndex];
+    const question = quiz?.questions[currentQuestionIndex];
+
+    if (!quiz || !quiz.questions || !Array.isArray(quiz.questions)) {
+        return <div>Invalid quiz data</div>;
+    }
 
     return (
         <div className="flex">
@@ -54,7 +61,7 @@ export default function QuizUi({ quiz }) {
             </div>
             <div className="w-1/2 p-8">
                 {question.picture && <Image priority={true} src={parisImg} alt="question" className="mb-4" />}
-                {question.audio && <audio src={question.audio} className="mb-4"></audio>}
+                {/* {question.audio && <audio src={question.audio} className="mb-4"></audio>} */}
                 <div className="space-y-4">
                     {question.answers.map((answer, index) => (
                         <label key={index} className="block">

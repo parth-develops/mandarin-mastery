@@ -78,7 +78,7 @@ export const fetchUserData = async (userId) => {
 export const fetchQuizzes = async () => {
     try {
         await connectToDatabase();
-        const quizzes = await Quizzes.find({}, "chapter slug").lean().exec();
+        const quizzes = await Quizzes.find({}, "chapter slug title").lean().exec();
 
         if (!quizzes) {
             return null;
@@ -89,6 +89,7 @@ export const fetchQuizzes = async () => {
                 id: quiz._id.toString(),
                 chapter: quiz.chapter,
                 slug: quiz.slug,
+                title: quiz.title,
             }
         })
 
@@ -101,13 +102,33 @@ export const fetchQuizzes = async () => {
 export const fetchQuizBySlug = async (quizSlug) => {
     try {
         await connectToDatabase();
-        const quiz = await Chapters.findOne({ slug: quizSlug }).exec();
+        const quiz = await Quizzes.findOne({ slug: quizSlug }).exec();
 
         if (!quiz) {
             return null;
         }
 
-        console.log("quiz by slug", quiz);
+        let plainQuiz = quiz.toObject();
+
+        const plainQuestions = plainQuiz.questions.map((question) => {
+            return {
+                id: question._id.toString(),
+                questionText: question.questionText,
+                picture: question.picture,
+                audio: question.audio,
+                answers: question.answers.map((ans => ({ id: ans._id.toString(), text: ans.text, isCorrect: ans.isCorrect }))),
+            }
+        })
+
+        plainQuiz = {
+            id: plainQuiz._id.toString(),
+            chapter: plainQuiz.chapter.toString(),
+            questions: plainQuestions,
+            slug: plainQuiz.slug,
+            title: plainQuiz.title,
+        }
+
+        return plainQuiz;
     } catch (error) {
         console.error('Error fetching quiz by slug: ', error);
     }
