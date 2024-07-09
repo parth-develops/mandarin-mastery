@@ -6,6 +6,8 @@ import parisImg from "@/assets/img/paris.jpg"
 import { recordQuizResult } from '@/app/lib/utils';
 import { useSession } from 'next-auth/react';
 import { fetchUserData } from '@/app/lib/data';
+import { Label } from "@/components/ui/label"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 export default function QuizUi({ quiz }) {
     console.log(quiz);
@@ -54,40 +56,40 @@ export default function QuizUi({ quiz }) {
     }
 
     return (
-        <div className="flex">
-            <div className="w-1/2 p-8 bg-blue-100">
-                <h2 className="text-2xl font-bold">Step {currentQuestionIndex + 1}/{quiz.questions.length}</h2>
-                <p className="mt-4 text-xl">{question.questionText}</p>
+        <div className="flex flex-1 ">
+            <div className="w-1/2 p-8 bg-blue-100 content-center">
+                <h4 className="font-bold text-black/60">Question {currentQuestionIndex + 1}/{quiz.questions.length}</h4>
+                <p className="mt-4 text-3xl font-bold">{question.questionText}</p>
+                <small className='font-semibold text-black/60'>Select one answer</small>
             </div>
-            <div className="w-1/2 p-8">
+            <div className="w-1/2 p-8 content-center">
                 {question.picture && <Image priority={true} src={parisImg} alt="question" className="mb-4" />}
                 {/* {question.audio && <audio src={question.audio} className="mb-4"></audio>} */}
                 <div className="space-y-4">
-                    {question.answers.map((answer, index) => (
-                        <label key={index} className="block">
-                            <input
-                                type="radio"
-                                name={`question-${currentQuestionIndex}`}
-                                value={answer.text}
-                                checked={selectedAnswers[currentQuestionIndex] === answer.text}
-                                onChange={() => handleAnswerChange(answer.text)}
-                                className="mr-2"
-                            />
-                            {answer.text}
-                        </label>
-                    ))}
+                    <RadioGroup>
+                        {question.answers.map((answer, index) => (
+                            <div key={answer.id} className="flex items-center space-x-2">
+                                <RadioGroupItem value={`question-${currentQuestionIndex}`} id={answer.id}
+                                    name={`question-${currentQuestionIndex}`}
+                                    checked={selectedAnswers[currentQuestionIndex] === answer.text}
+                                    onClick={() => handleAnswerChange(answer.text)}
+                                />
+                                <Label htmlFor={answer.id}>{answer.text}</Label>
+                            </div>
+                        ))}
+                    </RadioGroup>
                 </div>
-                <div className="mt-8 flex justify-between">
+                <div className="mt-8 flex">
                     <button
                         onClick={handlePrevious}
-                        className={`px-4 py-2 bg-gray-300 rounded ${currentQuestionIndex === 0 ? 'hidden' : ''}`}
+                        className={`px-4 mr-auto py-2 bg-gray-300 rounded ${currentQuestionIndex === 0 ? 'hidden' : ''}`}
                     >
                         Previous
                     </button>
                     {currentQuestionIndex < quiz.questions.length - 1 ? (
                         <button
                             onClick={handleNext}
-                            className="px-4 py-2 bg-blue-500 text-white rounded"
+                            className="px-4 ml-auto py-2 bg-blue-500 text-white rounded"
                         >
                             Next
                         </button>
