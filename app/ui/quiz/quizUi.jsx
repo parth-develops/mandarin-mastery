@@ -68,7 +68,7 @@ export default function QuizUi({ quiz }) {
                 <div className="space-y-4">
                     <RadioGroup>
                         {question.answers.map((answer, index) => (
-                            <div key={answer.id} className="flex items-center space-x-2">
+                            <div key={answer.id} className="flex items-center space-x-4 border-cyan-600 border-2 p-4 rounded-xl">
                                 <RadioGroupItem value={`question-${currentQuestionIndex}`} id={answer.id}
                                     name={`question-${currentQuestionIndex}`}
                                     checked={selectedAnswers[currentQuestionIndex] === answer.text}
@@ -82,21 +82,21 @@ export default function QuizUi({ quiz }) {
                 <div className="mt-8 flex">
                     <button
                         onClick={handlePrevious}
-                        className={`px-4 mr-auto py-2 bg-gray-300 rounded ${currentQuestionIndex === 0 ? 'hidden' : ''}`}
+                        className={`px-4 mr-auto py-2 border-2 border-cyan-600 rounded ${currentQuestionIndex === 0 ? 'hidden' : ''}`}
                     >
                         Previous
                     </button>
                     {currentQuestionIndex < quiz.questions.length - 1 ? (
                         <button
                             onClick={handleNext}
-                            className="px-4 ml-auto py-2 bg-blue-500 text-white rounded"
+                            className="px-4 ml-auto py-2 bg-cyan-600 text-white rounded border-2 border-transparent"
                         >
                             Next
                         </button>
                     ) : (
                         <button
                             onClick={handleSubmit}
-                            className="px-4 py-2 bg-green-500 text-white rounded"
+                            className="px-4 py-2 bg-green-600 text-white rounded"
                         >
                             Submit
                         </button>
