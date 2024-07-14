@@ -1,27 +1,8 @@
 "use client"
 
-import { logout } from "@/app/lib/actions";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button"
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import Link from "next/link";
-import { FaRegUserCircle } from "react-icons/fa";
 import { FiHome } from "react-icons/fi"
 import { GoBook } from "react-icons/go";
 import { LuMenu } from "react-icons/lu";
@@ -83,26 +64,6 @@ export default function Header() {
                     </nav>
                 </SheetContent>
             </Sheet>
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="secondary" size="icon" className="rounded-full ml-auto">
-                        <FaRegUserCircle size={20} />
-                        <span className="sr-only">Toggle user menu</span>
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>Settings</DropdownMenuItem>
-                    <DropdownMenuItem>Support</DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>
-                        <form action={logout} className="w-full">
-                            <button className="w-full">Logout</button>
-                        </form>
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
         </header>
     )
 }

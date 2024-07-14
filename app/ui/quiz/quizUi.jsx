@@ -8,12 +8,17 @@ import { useSession } from 'next-auth/react';
 import { fetchUserData } from '@/app/lib/data';
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { ResultModal } from './resultModal';
+import { Button } from '@/components/ui/button';
 
 export default function QuizUi({ quiz }) {
-    console.log(quiz);
+    const totalQuestions = quiz?.questions.length;
+
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [selectedAnswers, setSelectedAnswers] = useState(Array(quiz?.questions.length).fill(null));
     const [score, setScore] = useState(null);
+    const [isPassed, setIsPassed] = useState(false);
+    const [open, setOpen] = useState(false);
     const { data: session, status, update } = useSession();
 
     console.log(selectedAnswers);
@@ -43,10 +48,13 @@ export default function QuizUi({ quiz }) {
         setScore(correctAnswers);
 
         const isPassed = (correctAnswers / quiz.questions.length) === 1;
+        setIsPassed(isPassed);
 
         await recordQuizResult(session.user.id, quiz.id, isPassed, correctAnswers);
         const newUserSession = await fetchUserData(session.user.id);
         await update({ ...session, user: newUserSession });
+
+        setOpen(true);
     };
 
     const question = quiz?.questions[currentQuestionIndex];
@@ -56,57 +64,57 @@ export default function QuizUi({ quiz }) {
     }
 
     return (
-        <div className="flex flex-1 ">
-            <div className="w-1/2 p-8 bg-blue-100 content-center">
-                <h4 className="font-bold text-black/60">Question {currentQuestionIndex + 1}/{quiz.questions.length}</h4>
-                <p className="mt-4 text-3xl font-bold">{question.questionText}</p>
-                <small className='font-semibold text-black/60'>Select one answer</small>
+        <div className="flex flex-auto h-0">
+            <ResultModal open={open} setOpen={setOpen} score={score} isPassed={isPassed} totalQuestions={totalQuestions} />
+            <div className="w-1/2 p-8 bg-primary/20 content-center">
+                <h4 className="font-bold text-primary/60">Question {currentQuestionIndex + 1}/{quiz.questions.length}</h4>
+                <p className="mt-4 text-3xl text-primary font-bold">{question.questionText}</p>
+                <small className='font-semibold text-primary/60'>Select one answer</small>
             </div>
-            <div className="w-1/2 p-8 content-center">
-                {question.picture && <Image priority={true} src={parisImg} alt="question" className="mb-4" />}
-                {/* {question.audio && <audio src={question.audio} className="mb-4"></audio>} */}
-                <div className="space-y-4">
-                    <RadioGroup>
-                        {question.answers.map((answer, index) => (
-                            <div key={answer.id} className="flex items-center space-x-4 border-cyan-600 border-2 p-4 rounded-xl">
-                                <RadioGroupItem value={`question-${currentQuestionIndex}`} id={answer.id}
-                                    name={`question-${currentQuestionIndex}`}
-                                    checked={selectedAnswers[currentQuestionIndex] === answer.text}
-                                    onClick={() => handleAnswerChange(answer.text)}
-                                />
-                                <Label htmlFor={answer.id}>{answer.text}</Label>
-                            </div>
-                        ))}
-                    </RadioGroup>
+            <div className="w-1/2 px-8 flex flex-col">
+                <div className='m-auto'>
+                    {question.picture && <Image priority={true} src={parisImg} alt="question" className="mb-4 max-w-[100%]" />}
+                    {/* {question.audio && <audio src={question.audio} className="mb-4"></audio>} */}
                 </div>
-                <div className="mt-8 flex">
-                    <button
-                        onClick={handlePrevious}
-                        className={`px-4 mr-auto py-2 border-2 border-cyan-600 rounded ${currentQuestionIndex === 0 ? 'hidden' : ''}`}
-                    >
-                        Previous
-                    </button>
-                    {currentQuestionIndex < quiz.questions.length - 1 ? (
-                        <button
-                            onClick={handleNext}
-                            className="px-4 ml-auto py-2 bg-cyan-600 text-white rounded border-2 border-transparent"
-                        >
-                            Next
-                        </button>
-                    ) : (
-                        <button
-                            onClick={handleSubmit}
-                            className="px-4 py-2 bg-green-600 text-white rounded"
-                        >
-                            Submit
-                        </button>
-                    )}
-                </div>
-                {score !== null && (
-                    <div className="mt-8">
-                        <h3 className="text-2xl">Your score: {score} / {quiz.questions.length}</h3>
+                <div className="wrapper mt-auto">
+                    <div className="space-y-4">
+                        <RadioGroup>
+                            {question.answers.map((answer, index) => (
+                                <div key={answer.id} className="flex items-center space-x-4 border-primary/40 border-2 p-4 rounded-xl">
+                                    <RadioGroupItem value={`question-${currentQuestionIndex}`} id={answer.id}
+                                        name={`question-${currentQuestionIndex}`}
+                                        checked={selectedAnswers[currentQuestionIndex] === answer.text}
+                                        onClick={() => handleAnswerChange(answer.text)}
+                                    />
+                                    <Label htmlFor={answer.id}>{answer.text}</Label>
+                                </div>
+                            ))}
+                        </RadioGroup>
                     </div>
-                )}
+                    <div className="mt-8 flex justify-center gap-x-4">
+                        <Button
+                            variant={"outline"}
+                            onClick={handlePrevious}
+                            className={`border-2 border-primary`}
+                            disabled={currentQuestionIndex === 0 ? true : false}
+                        >
+                            Previous
+                        </Button>
+                        {currentQuestionIndex < quiz.questions.length - 1 ? (
+                            <Button
+                                onClick={handleNext}
+                            >
+                                Next
+                            </Button>
+                        ) : (
+                            <Button
+                                onClick={handleSubmit}
+                            >
+                                Submit
+                            </Button>
+                        )}
+                    </div>
+                </div>
             </div>
         </div>
     );

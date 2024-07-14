@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import SideNav from "../ui/common/sideNav/sideNav";
 import Header from "../ui/common/header/header";
 import SessionProvider from "../SessionProvider";
+import UserInfo from "../ui/common/sideNav/userInfo";
 
 export default async function Layout({ children }) {
     const session = await auth();
@@ -20,8 +21,9 @@ export default async function Layout({ children }) {
                                 <span className="">Mandarin Mastery</span>
                             </Link>
                         </div>
-                        <div className="flex-1">
+                        <div className="flex flex-col flex-1">
                             <SideNav />
+                            <UserInfo />
                         </div>
                     </div>
                 </div>
