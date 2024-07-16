@@ -7,7 +7,7 @@ import { FiHome } from "react-icons/fi"
 import { usePathname } from 'next/navigation';
 
 export default function SideNav() {
-    const pathName = usePathname();
+    const pathname = usePathname();
 
     return (
         <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
@@ -16,7 +16,7 @@ export default function SideNav() {
                 className={clsx(
                     'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary',
                     {
-                        'bg-muted': pathName === "/dashboard"
+                        'bg-muted': pathname === "/dashboard"
                     }
                 )}
             >
@@ -27,7 +27,8 @@ export default function SideNav() {
                 className={clsx(
                     'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary',
                     {
-                        'bg-muted': pathName === "/dashboard/chapters"
+                        'bg-muted': pathname.includes("chapters")
+
                     }
                 )}
             >
@@ -38,7 +39,7 @@ export default function SideNav() {
                 className={clsx(
                     'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary',
                     {
-                        'bg-muted': pathName === "/dashboard/quiz"
+                        'bg-muted': pathname.includes("quiz")
                     }
                 )}
             >
