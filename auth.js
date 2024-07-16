@@ -34,6 +34,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
                             id: user._id.toString(),
                             email: user.email,
                             username: user.username,
+                            userImg: user?.userImg ? user.userImg : null,
                             userChapters: user.chapters,
                             quizzes: user.quizzes,
                         };
@@ -67,6 +68,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
                 token.id = user.id;
                 token.email = user.email;
                 token.username = user.username;
+                token.userImg = user.userImg;
                 token.userChapters = user.userChapters;
                 token.quizzes = user.quizzes;
             }
@@ -84,6 +86,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
             session.user.id = token.id;
             session.user.email = token.email;
             session.user.username = token.username;
+            session.user.userImg = token.userImg;
             session.user.userChapters = token.userChapters;
             session.user.quizzes = token.quizzes;
             return session;
@@ -99,10 +102,22 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
                         username: user.name,
                         email: user.email,
                         userImg: user.image,
+                        chapters: [],
+                        quizzes: []
                     });
 
-                    const resp = await newUser.save();
+                    const savedUser = await newUser.save();
+                    user.userChapters = savedUser.chapters;
+                    user.quizzes = savedUser.quizzes;
+                } else {
+                    user.id = existingUser._id.toString();
+                    user.username = existingUser.username;
+                    user.email = existingUser.email;
+                    user.userImg = existingUser.userImg;
+                    user.userChapters = existingUser ? existingUser.chapters : [];
+                    user.quizzes = existingUser ? existingUser.quizzes : [];
                 }
+
                 return true;
             }
 
