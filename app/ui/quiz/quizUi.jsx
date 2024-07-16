@@ -79,16 +79,20 @@ export default function QuizUi({ quiz }) {
                 <div className="wrapper mt-auto">
                     <div className="space-y-4">
                         <RadioGroup>
-                            {question.answers.map((answer, index) => (
-                                <div key={answer.id} className="flex items-center space-x-4 border-primary/40 border-2 p-4 rounded-xl">
+                            {question.answers.map((answer, index) => {
+                                const isChecked = selectedAnswers[currentQuestionIndex] === answer.text;
+
+                                return <div key={answer.id} className={`flex items-center space-x-4 border-2 p-4 rounded-xl ${isChecked ? "border-primary bg-primary/10" : "border-primary/40"}`}
+                                    onClick={() => handleAnswerChange(answer.text)}
+                                >
                                     <RadioGroupItem value={`question-${currentQuestionIndex}`} id={answer.id}
                                         name={`question-${currentQuestionIndex}`}
-                                        checked={selectedAnswers[currentQuestionIndex] === answer.text}
-                                        onClick={() => handleAnswerChange(answer.text)}
+                                        checked={isChecked}
+                                        readonly
                                     />
                                     <Label htmlFor={answer.id}>{answer.text}</Label>
                                 </div>
-                            ))}
+                            })}
                         </RadioGroup>
                     </div>
                     <div className="mt-8 flex justify-center gap-x-4">
