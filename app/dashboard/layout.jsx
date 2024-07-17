@@ -5,6 +5,7 @@ import SideNav from "../ui/common/sideNav/sideNav";
 import Header from "../ui/common/header/header";
 import SessionProvider from "../SessionProvider";
 import UserInfo from "../ui/common/sideNav/userInfo";
+import GlobalProgressBar from "../ui/common/globalProgressBar/globalProgressBar";
 
 export default async function Layout({ children }) {
     const session = await auth();
@@ -13,6 +14,7 @@ export default async function Layout({ children }) {
 
     return (
         <SessionProvider>
+            <GlobalProgressBar/>
             <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
                 <div className="hidden border-r bg-muted/40 md:block">
                     <div className="flex h-full max-h-screen flex-col gap-2">

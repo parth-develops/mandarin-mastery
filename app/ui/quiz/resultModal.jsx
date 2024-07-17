@@ -10,7 +10,7 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 
 export function ResultModal({ open, setOpen, score, isPassed, totalQuestions }) {
     const router = useRouter();

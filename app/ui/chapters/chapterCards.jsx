@@ -4,7 +4,8 @@ import { fetchUserData } from "@/app/lib/data";
 import { enrollUserInChapter } from "@/app/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next-nprogress-bar';
+import { useState } from "react";
 
 export default function ChapterCards({ chapters, user }) {
     return (
@@ -18,17 +19,20 @@ export default function ChapterCards({ chapters, user }) {
 
 function ChapterCard({ chapter, user }) {
     const { data: session, status, update } = useSession();
-    const router = useRouter()
-
+    const router = useRouter();
+    const [isLoading, setIsLoading] = useState(false);
+console.log(status);
     if (status === "authenticated") {
         let userChapters = session?.user?.userChapters;
 
         const renderButton = () => {
             const handleEnroll = async () => {
+                setIsLoading(true);
                 await enrollUserInChapter(user.id, chapter.id, chapter.slug);
                 const newUserSession = await fetchUserData(user.id);
                 await update({ ...session, user: newUserSession });
-                router.push(`/dashboard/chapters/${chapter.slug}`)
+                router.push(`/dashboard/chapters/${chapter.slug}`);
+                setIsLoading(false);
             }
 
             if (userChapters) {
@@ -42,17 +46,27 @@ function ChapterCard({ chapter, user }) {
 
                 return currentUserChapter.isCompleted ?
                     <Button type="button"
-                        onClick={() => router.push(`/dashboard/chapters/${chapter.slug}`)}
+                        onClick={() => {
+                            setIsLoading(true);
+                            router.push(`/dashboard/chapters/${chapter.slug}`);
+                            setIsLoading(false);
+                        }}
+                        disabled={isLoading ? true : false}
                     >
                         Explore Again
                     </Button> :
                     <Button type="button"
-                        onClick={() => router.push(`/dashboard/chapters/${chapter.slug}`)}
+                        onClick={() => {
+                            setIsLoading(true);
+                            router.push(`/dashboard/chapters/${chapter.slug}`)
+                            setIsLoading(false);
+                        }}
+                        disabled={isLoading ? true : false}
                     >
                         Resume
                     </Button>
             } else {
-                return <Button type="button" onClick={handleEnroll}>Enroll</Button>
+                return <Button type="button" disabled={isLoading ? true : false} onClick={handleEnroll}>Enroll</Button>
             }
         }
 
@@ -60,10 +74,13 @@ function ChapterCard({ chapter, user }) {
             <div key={chapter.id}>
                 <h3 className="mb-2">{chapter.title}</h3>
                 <p className="mb-2">Description</p>
-                {renderButton()}
+                <div>
+
+                    {renderButton()}
+                </div>
             </div>
         )
     } else {
-        return "LOADING..."
+        return "Skeleton loading here"
     }
 }

@@ -17,6 +17,7 @@ import {
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import { Fragment } from "react";
+import UserInfo from "../sideNav/userInfo";
 
 export default function Header() {
     const pathname = usePathname();
@@ -46,7 +47,7 @@ export default function Header() {
                     </Button>
                 </SheetTrigger>
                 <SheetContent side="left" className="flex flex-col">
-                    <nav className="grid gap-2 text-lg font-medium">
+                    <nav className="grid gap-2 text-lg font-medium p-4 md:p-6">
                         <Link
                             href="/dashboard"
                             className="flex items-center gap-2 text-lg font-semibold"
@@ -82,6 +83,7 @@ export default function Header() {
                             Quiz
                         </Link>
                     </nav>
+                    <UserInfo />
                 </SheetContent>
             </Sheet>
             <div>
