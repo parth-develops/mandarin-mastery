@@ -1,6 +1,5 @@
 "use client"
 
-import { fetchUserData } from "@/app/lib/data";
 import { enrollUserInChapter } from "@/app/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
@@ -21,7 +20,6 @@ function ChapterCard({ chapter, user }) {
     const { data: session, status, update } = useSession();
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
-console.log(status);
     if (status === "authenticated") {
         let userChapters = session?.user?.userChapters;
 
@@ -29,9 +27,7 @@ console.log(status);
             const handleEnroll = async () => {
                 setIsLoading(true);
                 await enrollUserInChapter(user.id, chapter.id, chapter.slug);
-                const newUserSession = await fetchUserData(user.id);
-                await update({ ...session, user: newUserSession });
-                router.push(`/dashboard/chapters/${chapter.slug}`);
+                router.push(`/dashboard/chapters/${chapter.slug}?action=enroll`);
                 setIsLoading(false);
             }
 
@@ -39,6 +35,8 @@ console.log(status);
                 const currentUserChapter = userChapters.find((element) => {
                     return element.chapter === chapter.id;
                 });
+
+                console.log("Curent user chap", currentUserChapter);
 
                 if (!currentUserChapter) {
                     return <Button type="button" onClick={handleEnroll}>Enroll</Button>

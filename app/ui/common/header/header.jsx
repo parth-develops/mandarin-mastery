@@ -94,11 +94,9 @@ export default function Header() {
                                 {index !== 0 && <BreadcrumbSeparator />}
                                 {index < breadcrumbs.length - 1 ? (
                                     <BreadcrumbItem>
-                                        <BreadcrumbLink>
-                                            <Link href={breadcrumb.href}>
-                                                {breadcrumb.label.charAt(0).toUpperCase() + breadcrumb.label.slice(1)}
-                                            </Link>
-                                        </BreadcrumbLink>
+                                        <Link href={breadcrumb.href}>
+                                            {breadcrumb.label.charAt(0).toUpperCase() + breadcrumb.label.slice(1)}
+                                        </Link>
                                     </BreadcrumbItem>
                                 ) : (
                                     <BreadcrumbItem>
