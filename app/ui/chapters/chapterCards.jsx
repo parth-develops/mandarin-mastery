@@ -36,8 +36,6 @@ function ChapterCard({ chapter, user }) {
                     return element.chapter === chapter.id;
                 });
 
-                console.log("Curent user chap", currentUserChapter);
-
                 if (!currentUserChapter) {
                     return <Button type="button" onClick={handleEnroll}>Enroll</Button>
                 }

@@ -19,7 +19,6 @@ export default async function Chapters() {
 
     return (
         <div className="flex flex-col flex-1">
-            <h1 className="text-lg font-semibold md:text-2xl mb-4">Chapters</h1>
             <div className="cards p-4 flex-1 flex gap-4 border rounded-lg shadow-sm">
                 <ChapterCards chapters={plainChapters} user={user} />
             </div>
