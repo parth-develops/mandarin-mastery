@@ -16,6 +16,17 @@ export const fetchChapters = async () => {
     }
 }
 
+export const fetchChaptersCount = async () => {
+    try {
+        await connectToDatabase();
+
+        const chaptersCount = await Chapters.countDocuments().exec();
+        return chaptersCount;
+    } catch (error) {
+        console.error('Error fetching chapters count: ', error);
+    }
+}
+
 export const fetchChapterBySlug = async (chapterSlug) => {
     try {
         await connectToDatabase();
@@ -96,6 +107,17 @@ export const fetchQuizzes = async () => {
         return plainQuizzes;
     } catch (error) {
         console.error('Error fetching quizzes: ', error);
+    }
+}
+
+export const fetchQuizCount = async () => {
+    try {
+        await connectToDatabase();
+
+        const quizCount = await Quizzes.countDocuments().exec();
+        return quizCount;
+    } catch (error) {
+        console.error('Error fetching quiz count: ', error);
     }
 }
 

@@ -5,6 +5,7 @@ import { GoBook } from "react-icons/go";
 import clsx from "clsx";
 import { FiHome } from "react-icons/fi"
 import { usePathname } from 'next/navigation';
+import { MdOutlineQuiz } from "react-icons/md";
 
 export default function SideNav() {
     const pathname = usePathname();
@@ -43,7 +44,7 @@ export default function SideNav() {
                     }
                 )}
             >
-                Quiz
+                <MdOutlineQuiz size={16} /> Quiz
             </Link>
         </nav>
     )

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
@@ -11,15 +11,14 @@ import { usePathname } from 'next/navigation';
 import {
     Breadcrumb,
     BreadcrumbItem,
-    BreadcrumbLink,
     BreadcrumbList,
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import { Fragment } from "react";
-import UserInfo from "../sideNav/userInfo";
+import { MdOutlineQuiz } from "react-icons/md";
 
-export default function Header() {
+export default function Header({ children }) {
     const pathname = usePathname();
 
     const generateBreadcrumbs = () => {
@@ -80,10 +79,10 @@ export default function Header() {
                                 { "bg-muted": pathname.includes("quiz") },
                             )}
                         >
-                            Quiz
+                            <MdOutlineQuiz size={16} /> Quiz
                         </Link>
                     </nav>
-                    <UserInfo />
+                    {children}
                 </SheetContent>
             </Sheet>
             <div>
