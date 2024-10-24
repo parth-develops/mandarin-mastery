@@ -82,7 +82,7 @@ export default function QuizUi({ quiz }) {
                             {question.answers.map((answer, index) => {
                                 const isChecked = selectedAnswers[currentQuestionIndex] === answer.text;
 
-                                return <div key={answer.id} className={`flex items-center space-x-4 border-2 p-4 rounded-xl ${isChecked ? "border-primary bg-primary/10" : "border-primary/40"}`}
+                                return <div key={answer._id} className={`flex items-center space-x-4 border-2 p-4 rounded-xl ${isChecked ? "border-primary bg-primary/10" : "border-primary/40"}`}
                                     onClick={() => handleAnswerChange(answer.text)}
                                 >
                                     <RadioGroupItem value={`question-${currentQuestionIndex}`} id={answer.id}
