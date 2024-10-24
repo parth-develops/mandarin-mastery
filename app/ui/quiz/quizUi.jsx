@@ -88,7 +88,7 @@ export default function QuizUi({ quiz }) {
                                     <RadioGroupItem value={`question-${currentQuestionIndex}`} id={answer.id}
                                         name={`question-${currentQuestionIndex}`}
                                         checked={isChecked}
-                                        readonly
+                                        readOnly
                                     />
                                     <Label htmlFor={answer.id}>{answer.text}</Label>
                                 </div>

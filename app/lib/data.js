@@ -130,27 +130,7 @@ export const fetchQuizBySlug = async (quizSlug) => {
             return null;
         }
 
-        let plainQuiz = quiz.toObject();
-
-        const plainQuestions = plainQuiz.questions.map((question) => {
-            return {
-                id: question._id.toString(),
-                questionText: question.questionText,
-                picture: question.picture,
-                audio: question.audio,
-                answers: question.answers.map((ans => ({ id: ans._id.toString(), text: ans.text, isCorrect: ans.isCorrect }))),
-            }
-        })
-
-        plainQuiz = {
-            id: plainQuiz._id.toString(),
-            chapter: plainQuiz.chapter.toString(),
-            questions: plainQuestions,
-            slug: plainQuiz.slug,
-            title: plainQuiz.title,
-        }
-
-        return plainQuiz;
+        return JSON.parse(JSON.stringify(quiz));
     } catch (error) {
         console.error('Error fetching quiz by slug: ', error);
     }
