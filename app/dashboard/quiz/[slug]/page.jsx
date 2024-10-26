@@ -1,5 +1,5 @@
 import { fetchQuizBySlug } from '@/app/lib/data';
-import QuizUi from '@/app/ui/quiz/quizUi';
+import QuizUi from '@/app/ui/quiz/QuizUi';
 
 export default async function QuizPage({ params }) {
     const { slug } = params;

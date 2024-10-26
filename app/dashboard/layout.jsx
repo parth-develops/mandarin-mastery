@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { auth } from "@/auth";
 
-import SideNav from "../ui/common/sideNav/sideNav";
-import Header from "../ui/common/header/header";
+import SideNav from "../ui/common/sideNav/SideNav";
+import Header from "../ui/common/header/Header";
 import SessionProvider from "../SessionProvider";
-import UserInfo from "../ui/common/sideNav/userInfo";
-import GlobalProgressBar from "../ui/common/globalProgressBar/globalProgressBar";
+import UserInfo from "../ui/common/sideNav/UserInfo";
+import GlobalProgressBar from "../ui/common/globalProgressBar/GlobalProgressBar";
 
 export default async function Layout({ children }) {
     const session = await auth();

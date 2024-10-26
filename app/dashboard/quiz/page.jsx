@@ -1,5 +1,5 @@
 import { fetchQuizzes } from "@/app/lib/data";
-import QuizCards from "@/app/ui/quiz/quizCards";
+import QuizCards from "@/app/ui/quiz/QuizCards";
 
 export default async function Quiz() {
   const quizData = await fetchQuizzes();

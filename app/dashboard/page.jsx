@@ -1,4 +1,4 @@
-import DashboardStats from "../ui/dashboard/dashboardStats";
+import DashboardStats from "../ui/dashboard/DashboardStats";
 
 export default async function Dashboard() {
   return (

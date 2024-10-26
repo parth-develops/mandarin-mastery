@@ -1,9 +1,7 @@
 import { MdOutlineLogout } from "react-icons/md";
 import { RiShieldUserFill } from "react-icons/ri";
-import { logout } from "@/app/lib/actions";
 import {
     AlertDialog,
-    AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
     AlertDialogFooter,
@@ -11,9 +9,10 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { Button } from "@/components/ui/button"
 import Image from "next/image";
 import { auth } from "@/auth";
+import LogOut from "./LogOut";
+import { logout } from "@/app/lib/actions";
 
 export default async function UserInfo() {
     const { user } = await auth();
@@ -36,9 +35,8 @@ export default async function UserInfo() {
                     </AlertDialogHeader>
                     <AlertDialogDescription className="sr-only">Are you sure you want to logout?</AlertDialogDescription>
                     <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
                         <form action={logout} className="w-fit">
-                            <Button className="w-full" type="Submit">Yes</Button>
+                            <LogOut />
                         </form>
                     </AlertDialogFooter>
                 </AlertDialogContent>

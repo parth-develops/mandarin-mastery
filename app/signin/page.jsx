@@ -1,4 +1,4 @@
-import SignInForm from "../ui/singin/signInForm/signInForm";
+import SignInForm from "../ui/singin/signInForm/SignInForm";
 
 function Signin() {
   return (

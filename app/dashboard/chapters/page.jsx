@@ -1,5 +1,5 @@
-import ChapterCards from "@/app/ui/chapters/chapterCards";
-import { fetchChapters, fetchUserChapter } from "@/app/lib/data";
+import ChapterCards from "@/app/ui/chapters/ChapterCards";
+import { fetchChapters } from "@/app/lib/data";
 import { auth } from "@/auth";
 
 export default async function Chapters() {

@@ -1,4 +1,4 @@
-import SignupForm from "../ui/signup/signUpForm/signUpForm";
+import SignupForm from "../ui/signup/signUpForm/SignUpForm";
 
 export default function Signup() {
   return (

@@ -8,7 +8,7 @@ import { useSession } from 'next-auth/react';
 import { fetchUserData } from '@/app/lib/data';
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { ResultModal } from './resultModal';
+import { ResultModal } from './ResultModal';
 import { Button } from '@/components/ui/button';
 
 export default function QuizUi({ quiz }) {

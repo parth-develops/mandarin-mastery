@@ -1,5 +1,5 @@
 import { fetchChapterBySlug } from "@/app/lib/data"
-import ChapterCompleteBtn from "@/app/ui/chapters/chapterCompleteBtn";
+import ChapterCompleteBtn from "@/app/ui/chapters/ChapterCompleteBtn";
 import { auth } from "@/auth";
 import {
     Table,
