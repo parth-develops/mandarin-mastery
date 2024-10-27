@@ -19,9 +19,8 @@ export default function QuizUi({ quiz }) {
     const [score, setScore] = useState(null);
     const [isPassed, setIsPassed] = useState(false);
     const [open, setOpen] = useState(false);
-    const { data: session, status, update } = useSession();
-
-    console.log(selectedAnswers);
+    const [isLoading, setIsLoading] = useState(false);
+    const { data: session, update } = useSession();
 
     const handleAnswerChange = (answer) => {
         const newAnswers = [...selectedAnswers];
@@ -38,6 +37,7 @@ export default function QuizUi({ quiz }) {
     };
 
     const handleSubmit = async () => {
+        setIsLoading(true);
         let correctAnswers = 0;
         quiz.questions.forEach((question, index) => {
             const correctAnswer = question.answers.find(answer => answer.isCorrect);
@@ -49,10 +49,11 @@ export default function QuizUi({ quiz }) {
 
         const isPassed = (correctAnswers / quiz.questions.length) === 1;
         setIsPassed(isPassed);
-
+        
         await recordQuizResult(session.user.id, quiz.id, isPassed, correctAnswers);
         const newUserSession = await fetchUserData(session.user.id);
         await update({ ...session, user: newUserSession });
+        setIsLoading(false);
 
         setOpen(true);
     };
@@ -100,7 +101,7 @@ export default function QuizUi({ quiz }) {
                             variant={"outline"}
                             onClick={handlePrevious}
                             className={`border-2 border-primary`}
-                            disabled={currentQuestionIndex === 0 ? true : false}
+                            disabled={(currentQuestionIndex === 0 ? true : false) || isLoading}
                         >
                             Previous
                         </Button>
@@ -113,6 +114,7 @@ export default function QuizUi({ quiz }) {
                         ) : (
                             <Button
                                 onClick={handleSubmit}
+                                loading={isLoading}
                             >
                                 Submit
                             </Button>

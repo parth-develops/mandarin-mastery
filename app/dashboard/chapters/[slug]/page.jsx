@@ -4,11 +4,7 @@ import { auth } from "@/auth";
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
-    TableFooter,
-    TableHead,
-    TableHeader,
     TableRow,
 } from "@/components/ui/table";
 import {
@@ -24,7 +20,7 @@ export default async function ChapterPage({ params }) {
     const { slug } = params;
     const { user } = await auth();
     const chapter = await fetchChapterBySlug(slug);
-    
+
     const chapterContent = chapter.content.toObject();
 
     return (
@@ -40,7 +36,7 @@ export default async function ChapterPage({ params }) {
 
                 <Table className="mb-5">
                     <TableBody>
-                        <h2 className="font-bold mb-4">Bare Minimum</h2>
+                        <tr><td className="font-bold py-3 text-lg">Bare Minimum</td></tr>
                         {
                             chapterContent.minimum.map(point => (
                                 <TableRow key={point._id.toString()}>
@@ -60,7 +56,7 @@ export default async function ChapterPage({ params }) {
                                 </TableRow>
                             ))
                         }
-                        <h2 className="font-bold mt-5 mb-3">For brave ones</h2>
+                        <tr><td className="font-bold pt-5 pb-3 text-lg">For brave ones</td></tr>
                         {
                             chapterContent.brave.map(point => (
                                 <TableRow key={point._id.toString()}>
@@ -80,7 +76,7 @@ export default async function ChapterPage({ params }) {
                                 </TableRow>
                             ))
                         }
-                        <h2 className="font-bold mt-5 mb-3">For those who want more</h2>
+                        <tr><td className="font-bold pt-5 pb-3 text-lg">For those who want more</td></tr>
                         {
                             chapterContent.more.map(point => (
                                 <TableRow key={point._id.toString()}>

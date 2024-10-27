@@ -12,9 +12,9 @@ import { useRouter } from 'next-nprogress-bar';
 
 export default function ChapterCompleteBtn({ userId, chapterId }) {
     const { data: session, update, status } = useSession();
-    console.log("curr session", session);
     const userChapters = session?.user?.userChapters;
     const [user, setUser] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
     const searchParams = useSearchParams();
     const router = useRouter();
 
@@ -23,15 +23,6 @@ export default function ChapterCompleteBtn({ userId, chapterId }) {
         console.log("NEWSESS", newUserSession);
         await update({ ...session, user: newUserSession });
     }
-
-    // if (searchParams.size > 0) {
-    //     if (searchParams.get("action") === "enroll") {
-    //         updateSession();
-
-    //         const currentUrl = window.location.pathname;
-    //         router.replace(currentUrl);
-    //     }
-    // }
 
     useEffect(() => {
         if (searchParams.size > 0) {
@@ -43,23 +34,15 @@ export default function ChapterCompleteBtn({ userId, chapterId }) {
             }
         }
     }, [])
-    
+
     useEffect(() => {
         if (session && session.user) {
             setUser(session.user)
         }
     }, [session])
 
-
-    // if (status === "authenticated") {
-
-    // } else {
-    //     return <Badge className="ml-auto" title="Loading..." variant="outline">Loading...</Badge>
-    // }
-
     const currentUserChapterIndex = userChapters?.findIndex(chap => chap.chapter === chapterId);
     const currentUserChapter = userChapters && userChapters[currentUserChapterIndex];
-    console.log("curr chap", currentUserChapter);
 
     if (currentUserChapter?.isCompleted) {
         return (
@@ -67,13 +50,15 @@ export default function ChapterCompleteBtn({ userId, chapterId }) {
         )
     } else {
         const completeChapter = async (userId, chapterId) => {
+            setIsLoading(true);
             await markChapterAsComplete(userId, chapterId);
             const newUserSession = await fetchUserData(user.id);
             await update({ ...session, user: newUserSession });
+            setIsLoading(false);
         }
 
         return (
-            <Button className="ml-auto" disabled={status !== "authenticated" ? true : false} title="Mark this chapter as completed"
+            <Button className="ml-auto" loading={isLoading} disabled={status !== "authenticated" ? true : false} title="Mark this chapter as completed"
                 onClick={() => completeChapter(userId, chapterId)}
             >
                 <FaCheckCircle className="mr-1" /> Mark as completed
