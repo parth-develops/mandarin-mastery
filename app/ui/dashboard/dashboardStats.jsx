@@ -13,10 +13,17 @@ import { MdOutlineQuiz } from "react-icons/md";
 import { IoMdTime } from "react-icons/io";
 import { RiProgress5Line } from "react-icons/ri";
 import { fetchChaptersCount, fetchQuizCount } from "@/app/lib/data";
+import { auth } from "@/auth";
 
 export default async function DashboardStats() {
-    const totalChapters = await fetchChaptersCount();  
-    const totalQuizzes = await fetchQuizCount();  
+    const totalChapters = await fetchChaptersCount();
+    const totalQuizzes = await fetchQuizCount();
+    const { user } = await auth();
+
+    const chaptersCompleted = user.userChapters.filter(chapter => chapter.isCompleted).length;
+    const quizzesCompleted = user.quizzes.filter(quiz => quiz.isPassed).length;
+    const chaptersPercentage = Math.round((chaptersCompleted / totalChapters) * 100);
+    const quizzesPercentage = Math.round((quizzesCompleted / totalQuizzes) * 100);
 
     return (
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
@@ -28,16 +35,16 @@ export default async function DashboardStats() {
                         </div>
                         <div>
                             <CardDescription className="text-xs">Chapters Completed</CardDescription>
-                            <CardTitle className="text-xl">1 out of {totalChapters}</CardTitle>
+                            <CardTitle className="text-xl">{chaptersCompleted} out of {totalChapters}</CardTitle>
                         </div>
                     </div>
                 </CardHeader>
                 <CardContent>
-                    <Progress value={33} aria-label="25% increase" />
+                    <Progress value={chaptersPercentage} />
                 </CardContent>
                 <CardFooter>
                     <div className="text-base text-muted-foreground flex items-center gap-1">
-                        <GiProgression size={16} className="text-primary" /> {Math.round((1 / 3) * 100)}%
+                        <GiProgression size={16} className="text-primary" /> {chaptersPercentage}%
                     </div>
                 </CardFooter>
             </Card>
@@ -49,16 +56,16 @@ export default async function DashboardStats() {
                         </div>
                         <div>
                             <CardDescription className="text-xs">Quiz Completed</CardDescription>
-                            <CardTitle className="text-xl">1 out of {totalQuizzes}</CardTitle>
+                            <CardTitle className="text-xl">{quizzesCompleted} out of {totalQuizzes}</CardTitle>
                         </div>
                     </div>
                 </CardHeader>
                 <CardContent>
-                    <Progress value={33} aria-label="25% increase" />
+                    <Progress value={quizzesPercentage} />
                 </CardContent>
                 <CardFooter>
                     <div className="text-base text-muted-foreground flex items-center gap-1">
-                        <GiProgression size={16} className="text-primary" /> {Math.round((1 / 3) * 100)}%
+                        <GiProgression size={16} className="text-primary" /> {quizzesPercentage}%
                     </div>
                 </CardFooter>
             </Card>
@@ -70,16 +77,16 @@ export default async function DashboardStats() {
                         </div>
                         <div>
                             <CardDescription className="text-xs">Overall Completion</CardDescription>
-                            <CardTitle className="text-xl">2 out of {totalChapters + totalQuizzes}</CardTitle>
+                            <CardTitle className="text-xl">{chaptersCompleted + quizzesCompleted} out of {totalChapters + totalQuizzes}</CardTitle>
                         </div>
                     </div>
                 </CardHeader>
                 <CardContent>
-                    <Progress value={Math.round((2 / 6) * 100)} aria-label="25% increase" />
+                    <Progress value={Math.round(((chaptersCompleted + quizzesCompleted) / (totalChapters + totalQuizzes)) * 100)} />
                 </CardContent>
                 <CardFooter>
                     <div className="text-base text-muted-foreground flex items-center gap-1">
-                        <GiProgression size={16} className="text-primary" /> {Math.round((2 / 6) * 100)}%
+                        <GiProgression size={16} className="text-primary" /> {Math.round(((chaptersCompleted + quizzesCompleted) / (totalChapters + totalQuizzes)) * 100)}%
                     </div>
                 </CardFooter>
             </Card>
