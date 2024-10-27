@@ -25,10 +25,7 @@ export default function SignupForm() {
     const [errorMessage, dispatch] = useFormState(createUser, undefined);
 
     const action = handleSubmit(async (data) => {
-
-        console.log("formdata", data);
         const response = await dispatch(data);
-        console.log("response", response);
         router.push("/signin");
     });
 

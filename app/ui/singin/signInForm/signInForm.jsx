@@ -22,7 +22,6 @@ export default function SignInForm() {
 
     const action = handleSubmit(async (data) => {
         const response = await dispatch(data);
-        console.log("UserData", data);
     });
 
     return (

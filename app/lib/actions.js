@@ -46,7 +46,6 @@ export async function logout() {
 
 export async function createUser(prevState, formData) {
   try {
-    console.log("formdata", formData);
     await connectToDatabase();
 
     const salt = bcryptjs.genSaltSync(10);

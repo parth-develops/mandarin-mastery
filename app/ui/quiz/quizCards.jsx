@@ -15,7 +15,6 @@ export default function QuizCards({ quizzes }) {
 }
 
 function QuizCard({ quiz }) {
-    console.log(quiz);
     const { data: session, status } = useSession();
     const router = useRouter();
 

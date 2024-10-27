@@ -31,7 +31,7 @@ export async function markChapterAsComplete(userId, chapterId) {
     } catch (err) {
         console.error('Error completing chapter:', err);
     }
-    
+
     // revalidatePath("/dashboard/chapters");
     // redirect("/dashboard/chapters");
 }

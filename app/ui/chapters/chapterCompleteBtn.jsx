@@ -20,7 +20,6 @@ export default function ChapterCompleteBtn({ userId, chapterId }) {
 
     async function updateSession(userId) {
         const newUserSession = await fetchUserData(userId);
-        console.log("NEWSESS", newUserSession);
         await update({ ...session, user: newUserSession });
     }
 

@@ -1,15 +1,12 @@
 import {
     AlertDialog,
     AlertDialogAction,
-    AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
-    AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { Button } from "@/components/ui/button";
 import { useRouter } from "next-nprogress-bar";
 
 export function ResultModal({ open, setOpen, score, isPassed, totalQuestions }) {
@@ -22,17 +19,14 @@ export function ResultModal({ open, setOpen, score, isPassed, totalQuestions }) 
 
     return (
         <AlertDialog open={open}>
-            {/* <AlertDialogTrigger asChild>
-                <Button variant="outline">Show Dialog</Button>
-            </AlertDialogTrigger> */}
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle>Quiz Result</AlertDialogTitle>
                     <AlertDialogDescription>
-                        <p>Your score is {`${score}/${totalQuestions}`}</p>
+                        <span className="block">Your score is {`${score}/${totalQuestions}`}.</span>
                         {
-                            isPassed ? <p>Yay, you have passed this quiz! Well done.</p> :
-                                <p>Unfortunately you have failed this quiz attempt, but it&apos;s okay you tried. We recommend going through the chapter again, thoroughly.</p>
+                            isPassed ? <span className="block">Yay, you have passed this quiz! Well done.</span> :
+                                <span className="block">Unfortunately you have failed this quiz attempt, but it&apos;s okay you tried. We recommend going through the chapter again, thoroughly.</span>
                         }
                     </AlertDialogDescription>
                 </AlertDialogHeader>

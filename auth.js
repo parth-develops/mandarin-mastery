@@ -20,16 +20,9 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
                 if (credentials.email) {
                     user = await Users.findOne({ email: credentials.email });
                 }
-
-                console.log("Credentials received:", credentials);
-                console.log("User fetched:", user);
-
                 if (user && user.password) {
                     const passwordsMatch = await bcryptjs.compare(credentials.password, user.password);
                     if (passwordsMatch) {
-                        console.log("yep they match");
-                        console.log("the user", user);
-
                         return {
                             id: user._id.toString(),
                             email: user.email,
@@ -39,7 +32,6 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
                             quizzes: user.quizzes,
                         };
                     } else {
-                        console.log("Passwords do not match");
                         return null;
                     }
                 }

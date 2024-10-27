@@ -3,7 +3,6 @@ import QuizCards from "@/app/ui/quiz/QuizCards";
 
 export default async function Quiz() {
   const quizData = await fetchQuizzes();
-  console.log("quizData", quizData);
 
   return (
     <div className="flex flex-1">

@@ -12,8 +12,6 @@ export default auth((req) => {
 
     const isLoggedIn = !!req.auth;
 
-    console.log(route);
-
     function checkAuthRoute(authRoute) {
         if (route.startsWith(authRoute)) {
             return true;

@@ -49,8 +49,8 @@ export default function QuizUi({ quiz }) {
 
         const isPassed = (correctAnswers / quiz.questions.length) === 1;
         setIsPassed(isPassed);
-        
-        await recordQuizResult(session.user.id, quiz.id, isPassed, correctAnswers);
+
+        await recordQuizResult(session.user.id, quiz._id, isPassed, correctAnswers);
         const newUserSession = await fetchUserData(session.user.id);
         await update({ ...session, user: newUserSession });
         setIsLoading(false);
