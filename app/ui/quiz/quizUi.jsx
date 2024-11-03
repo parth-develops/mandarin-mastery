@@ -65,14 +65,14 @@ export default function QuizUi({ quiz }) {
     }
 
     return (
-        <div className="flex flex-auto h-0">
+        <div className="flex flex-auto h-0 flex-wrap gap-y-4">
             <ResultModal open={open} setOpen={setOpen} score={score} isPassed={isPassed} totalQuestions={totalQuestions} />
-            <div className="w-1/2 p-8 bg-primary/20 content-center">
+            <div className="lg:w-1/2 w-full lg:p-8 p-4 bg-primary/20 content-center">
                 <h4 className="font-bold text-primary/60">Question {currentQuestionIndex + 1}/{quiz.questions.length}</h4>
-                <p className="mt-4 text-3xl text-primary font-bold">{question.questionText}</p>
+                <p className="mt-4 lg:text-3xl text-xl text-primary font-bold">{question.questionText}</p>
                 <small className='font-semibold text-primary/60'>Select one answer</small>
             </div>
-            <div className="w-1/2 px-8 flex flex-col">
+            <div className="lg:w-1/2 w-full px-8 flex flex-col">
                 <div className='m-auto'>
                     {question.picture && <Image priority={true} src={parisImg} alt="question" className="mb-4 max-w-[100%]" />}
                     {/* {question.audio && <audio src={question.audio} className="mb-4"></audio>} */}
