@@ -29,6 +29,9 @@ export default function SignupForm() {
         router.push("/signin");
     });
 
+    const usernameValidationString = "Please enter a username between 3 and 15 characters";
+    const passwordValidationString = "Password must be between 8 and 20 characters";
+
     return (
         <Card className="mx-auto max-w-[350px]">
             <form action={action}>
@@ -41,15 +44,18 @@ export default function SignupForm() {
                 <CardContent className="grid gap-4">
                     <div className="grid gap-2">
                         <Label htmlFor="username">Username</Label>
-                        <Input {...register("username", { required: true })} type="text" placeholder="username" />
+                        <Input {...register("username", { required: usernameValidationString, minLength: { value: 3, message: usernameValidationString }, maxLength: { value: 15, message: usernameValidationString }, pattern: { value: /^[a-zA-Z0-9_]+$/, message: "Username must contain only letters, numbers and _" } })} type="text" id="username" placeholder="username" />
+                        <p className="text-[12px] leading-[1.1] text-red-700">{errors.username?.message}</p>
                     </div>
                     <div className="grid gap-2">
                         <Label htmlFor="email">Email</Label>
-                        <Input {...register("email", { required: true })} type="email" placeholder="m@example.com" />
+                        <Input {...register("email", { required: "Please enter email", pattern: { value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, message: "Please enter a valid email" } })} type="email" id="email" placeholder="m@example.com" />
+                        <p className="text-[12px] leading-[1.1] text-red-700">{errors.email?.message}</p>
                     </div>
                     <div className="grid gap-2">
                         <Label htmlFor="password">Password</Label>
-                        <Input {...register("password", { required: true })} id="password" type="password" />
+                        <Input {...register("password", { required: { value: true, message: passwordValidationString }, maxLength: { value: 20, message: passwordValidationString }, minLength: { value: 8, message: passwordValidationString }, pattern: { value: /^(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~]).{8}$/, message: "Password must have atleast one special character" } })} id="password" type="password" />
+                        <p className="text-[12px] leading-[1.1] text-red-700">{errors.password?.message}</p>
                     </div>
                     <Button type="submit" className="w-full">Create account</Button>
                 </CardContent>
