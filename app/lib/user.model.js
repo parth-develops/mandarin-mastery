@@ -9,8 +9,17 @@ const quizResultSchema = new mongoose.Schema({
 
 const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
-  username: { type: String, required: true, unique: true },
-  password: { type: String },
+  username: { type: String, required: true, },
+  password: {
+    type: String,
+    required: true,
+    minlength: [8, "Password must be atleast 8 characters."],
+    maxlength: [8, "Password must be atmost 20 characters."],
+    match: [
+      /^(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~]).{8,20}$/,
+      "Password must be exactly 8 characters and include at least one special character."
+    ]
+  },
   discordId: { type: String, unique: true, sparse: true },
   userImg: { type: String },
   chapters: [

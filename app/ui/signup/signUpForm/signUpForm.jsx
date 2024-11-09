@@ -54,7 +54,7 @@ export default function SignupForm() {
                     </div>
                     <div className="grid gap-2">
                         <Label htmlFor="password">Password</Label>
-                        <Input {...register("password", { required: { value: true, message: passwordValidationString }, maxLength: { value: 20, message: passwordValidationString }, minLength: { value: 8, message: passwordValidationString }, pattern: { value: /^(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~]).{8}$/, message: "Password must have atleast one special character" } })} id="password" type="password" />
+                        <Input {...register("password", { required: { value: true, message: passwordValidationString }, maxLength: { value: 20, message: passwordValidationString }, minLength: { value: 8, message: passwordValidationString }, pattern: { value: /^(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~]).{8,20}$/, message: "Password must have atleast one special character" } })} id="password" type="password" />
                         <p className="text-[12px] leading-[1.1] text-red-700">{errors.password?.message}</p>
                     </div>
                     <Button type="submit" className="w-full">Create account</Button>
