@@ -4,19 +4,25 @@ import { enrollUserInChapter } from "@/app/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { useRouter } from 'next-nprogress-bar';
+import Image from "next/image";
 import { useState } from "react";
+import one from "@/assets/img/one.png";
+import two from "@/assets/img/two.png";
+import "./chapterCards.scss";
 
 export default function ChapterCards({ chapters, user }) {
     return (
-        chapters.map(chapter => {
+        chapters.map((chapter, index) => {
             return (
-                <ChapterCard key={chapter.id} chapter={chapter} user={user} />
+                <ChapterCard key={chapter.id} chapter={chapter} user={user} index={index} />
             )
         })
     )
 }
 
-function ChapterCard({ chapter, user }) {
+const IMAGES = [one, two]
+
+function ChapterCard({ chapter, user, index }) {
     const { data: session, status, update } = useSession();
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
@@ -67,8 +73,11 @@ function ChapterCard({ chapter, user }) {
         }
 
         return (
-            <div key={chapter.id}>
-                <h3 className="mb-2">{chapter.title}</h3>
+            <div key={chapter.id} className="text-center p-4 rounded-xl boxShadow h-fit w-1/6">
+                <div className="text-center pointer-events-none">
+                    <Image src={IMAGES[index]} alt={index + 1} width={100} height={100} title={chapter.title} className="mx-auto" />
+                </div>
+                <h3>{chapter.title}</h3>
                 <p className="mb-2">Description</p>
                 <div>
 

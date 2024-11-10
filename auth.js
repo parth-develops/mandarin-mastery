@@ -4,9 +4,14 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import DiscordProvider from "next-auth/providers/discord";
 import Users from "@/app/lib/user.model";
 import bcryptjs from "bcryptjs";
+import Resend from "next-auth/providers/resend"
 
 export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
     providers: [
+        // Resend({
+        //     apiKey: process.env.AUTH_RESEND_KEY,
+        //     from: "onboarding@resend.dev"
+        // }),
         CredentialsProvider({
             credentials: {
                 email: { label: "Email", type: "email" },
@@ -39,7 +44,6 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
             }
         }),
         DiscordProvider({
-            // name: "DISCORDX",
             clientId: process.env.DISCORD_CLIENT_ID,
             clientSecret: process.env.DISCORD_CLIENT_SECRET,
             authorization: {

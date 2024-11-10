@@ -1,9 +1,7 @@
 "use server";
 
-import { revalidatePath } from 'next/cache';
 import { connectToDatabase } from '../utils/db';
 import Users from './user.model';
-import { redirect } from 'next/navigation';
 
 export async function enrollUserInChapter(userId, chapterId, chapterSlug) {
     try {
