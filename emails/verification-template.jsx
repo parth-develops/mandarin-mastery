@@ -10,25 +10,21 @@ const VerificationTemplate = ({ username, emailVerificationToken }) => (
         <Preview>Preview text that appears in the email client before opening the email.</Preview>
         <Body style={main}>
             <Container style={container}>
-                <Img
-                    src='my-logo.png'
-                    alt='My SaaS'
-                    style={logo}
-                />
-                <Text style={title}>Hi {username}!</Text>
-                <Text style={title}>Welcome to Starter Kit for building a SaaS</Text>
-                <Text style={paragraph}>Please verify your email, with the link below:</Text>
-                <Section style={btnContainer}>
+                LOGO
+                <Text >Hi {username}!</Text>
+                <Text >Welcome to Starter Kit for building a SaaS</Text>
+                <Text >Please verify your email, with the link below:</Text>
+                <Section >
                     {/* Button that takes the user to the verification link */}
                     <Button
-                        style={button}
+                        
                         href={`${baseUrl}/auth/verify-email?token=${emailVerificationToken}`}
                     >
                         Click here to verify
                     </Button>
                 </Section>
-                <Hr style={hr} />
-                <Text style={footer}>Something in the footer.</Text>
+                <Hr />
+                <Text>Something in the footer.</Text>
             </Container>
         </Body>
     </Html>

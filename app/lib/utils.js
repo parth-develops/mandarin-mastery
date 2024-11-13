@@ -2,6 +2,7 @@
 
 import { connectToDatabase } from '../utils/db';
 import Users from './user.model';
+import crypto from 'crypto';
 
 export async function enrollUserInChapter(userId, chapterId, chapterSlug) {
     try {
@@ -46,4 +47,8 @@ export async function recordQuizResult(userId, quizId, isPassed, score) {
     } catch (error) {
         console.error('Error recording quiz result:', error);
     }
+}
+
+export async function generateToken(length = 32) {
+    return crypto.randomBytes(length).toString('hex');
 }
