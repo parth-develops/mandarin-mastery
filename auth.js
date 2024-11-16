@@ -1,9 +1,13 @@
-import NextAuth from 'next-auth';
+import NextAuth, { CredentialsSignin } from 'next-auth';
 import { connectToDatabase } from "@/app/utils/db";
 import CredentialsProvider from 'next-auth/providers/credentials';
 import DiscordProvider from "next-auth/providers/discord";
 import Users from "@/app/lib/user.model";
 import bcryptjs from "bcryptjs";
+
+class InvalidLoginError extends CredentialsSignin {
+    code = "Email not verified"
+}
 
 export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
     providers: [
@@ -19,6 +23,9 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
 
                 if (credentials.email) {
                     user = await Users.findOne({ email: credentials.email });
+                    if(!user.emailVerified) {
+                        throw new InvalidLoginError();
+                    }
                 }
                 if (user && user.password) {
                     const passwordsMatch = await bcryptjs.compare(credentials.password, user.password);

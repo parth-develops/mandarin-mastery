@@ -18,6 +18,9 @@ export async function authenticate(prevState, formData) {
     if (error instanceof AuthError) {
       switch (error.type) {
         case 'CredentialsSignin':
+          if (error.code === "Email not verified") {
+            return error.code;
+          }
           return 'Invalid credentials.';
         default:
           return 'Something went wrong.';
@@ -81,15 +84,21 @@ export async function createUser(prevState, formData) {
     });
 
     const resp = await newUser.save();
-    
+
     await sendEmail({
       to: formData.email,
       subject: 'Verify your email address',
       react: React.createElement(VerificationTemplate, { username: formData.username, emailVerificationToken }),
     })
+    return { success: true };
   } catch (error) {
-    console.error("Error creating user:", error.message);
-    return null;
+    if (error.code === 11000) {
+      console.error("Duplicate email error:", error.message);
+      return { success: false, error: "This email is already registered" };
+    }
+    console.error(error)
+    return error.message;
+    // throw new Error("An error occurred while creating the user.");
   }
 }
 

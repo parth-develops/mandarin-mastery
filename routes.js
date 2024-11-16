@@ -1,5 +1,7 @@
 export const authRoutes = [
 	'/signin',
+	'/signup',
+	'/forgot-password',
 	'/api/auth/signin',
 	'/auth/verify-email',
 ]

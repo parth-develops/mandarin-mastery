@@ -44,17 +44,17 @@ export default function SignInForm() {
                                     placeholder="m@example.com"
                                     {...register("email", { required: true })}
                                 />
-                                {errors.email && <span className="error">Email is required</span>}
+                                {errors.email && <span className="error text-red-500">Email is required</span>}
                             </div>
                             <div className="grid gap-2">
                                 <div className="flex items-center">
                                     <Label htmlFor="password">Password</Label>
-                                    <Link href="#" className="ml-auto inline-block text-sm underline">
+                                    <Link href="/forgot-password" className="ml-auto inline-block text-sm underline">
                                         Forgot your password?
                                     </Link>
                                 </div>
                                 <Input id="password" type="password" {...register("password", { required: true })} />
-                                {errors.password && <span className="error">Password is required</span>}
+                                {errors.password && <span className="error text-red-500">Password is required</span>}
                                 <div
                                     className="flex items-end space-x-1"
                                     aria-live="polite"
@@ -87,7 +87,7 @@ function Buttons() {
 
     return (
         <>
-            <Button disabled={pending ? true : false} aria-disabled={pending} type="submit" className={`w-full ${pending ? "disabled:opacity-50" : ""}`}>
+            <Button loading={pending ? true : false} aria-disabled={pending} type="submit" className={`w-full`}>
                 Login
             </Button>
             <div className="relative my-2">
@@ -100,7 +100,7 @@ function Buttons() {
                     </span>
                 </div>
             </div>
-            <Button disabled={pending ? true : false} aria-disabled={pending} type="button" variant="outline" className={`w-full ${pending ? "disabled:opacity-50" : ""}`} onClick={() => discordLogin()}>
+            <Button disabled={pending ? true : false} aria-disabled={pending} type="button" variant="outline" className={`w-full`} onClick={() => discordLogin()}>
                 <FaDiscord size={20} className='mr-1' /> Discord
             </Button>
         </>
