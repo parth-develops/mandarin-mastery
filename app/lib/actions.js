@@ -102,4 +102,21 @@ export async function createUser(prevState, formData) {
   }
 }
 
+export async function forgotPassword(prevState, formData) {
+  try {
+    connectToDatabase();
+
+    const user = await Users.findOne({ email: formData.email })
+      if (!user) {
+        return "User with the provided email does not exist."
+      } 
+
+      const emailVerificationToken = generateToken();
+
+      
+  } catch (error) {
+
+  }
+}
+
 

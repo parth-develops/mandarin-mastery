@@ -17,7 +17,6 @@ const VerificationTemplate = ({ username, emailVerificationToken }) => (
                 <Section >
                     {/* Button that takes the user to the verification link */}
                     <Button
-                        
                         href={`${baseUrl}/auth/verify-email?token=${emailVerificationToken}`}
                     >
                         Click here to verify

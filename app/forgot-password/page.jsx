@@ -1,9 +1,14 @@
+"use client"
+
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { useForm } from "react-hook-form";
 
 export default function ForgotPassword() {
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+
     return (
         <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 py-12 px-4 dark:bg-gray-950">
             <div className="mx-auto w-full max-w-md space-y-8">
@@ -15,7 +20,7 @@ export default function ForgotPassword() {
                         Enter the email address associated with your account and we&apos;ll send you a link to reset your password.
                     </p>
                 </div>
-                <form className="space-y-6" action="#" method="POST">
+                <form className="space-y-6" action="#">
                     <div>
                         <Label htmlFor="email" className="sr-only">
                             Email address
