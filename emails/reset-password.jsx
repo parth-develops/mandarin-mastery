@@ -4,8 +4,6 @@ import {
     Container,
     Head,
     Html,
-    Img,
-    Link,
     Preview,
     Section,
     Text,
@@ -14,40 +12,28 @@ import * as React from "react";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
-export const DropboxResetPasswordEmail = ({ userFirstname, resetPasswordLink }) => {
+export const ResetPassword = ({ username, passwordResetToken }) => {
     return (
         <Html>
             <Head />
-            <Preview>Dropbox reset your password</Preview>
+            <Preview>Mandarin Mastery reset your password</Preview>
             <Body style={main}>
                 <Container style={container}>
-                    <Img
-                        src={`${baseUrl}/static/dropbox-logo.png`}
-                        width="40"
-                        height="33"
-                        alt="Dropbox"
-                    />
+                    <Text>Mandarin Mastery</Text>
                     <Section>
-                        <Text style={text}>Hi {userFirstname},</Text>
+                        <Text style={text}>Hi {username},</Text>
                         <Text style={text}>
-                            Someone recently requested a password change for your Dropbox
+                            Someone recently requested a password change for your Mandarin Mastery
                             account. If this was you, you can set a new password here:
                         </Text>
-                        <Button style={button} href={resetPasswordLink}>
+                        <Button style={button} href={`${baseUrl}/auth/reset-password?token=${passwordResetToken}`}>
                             Reset password
                         </Button>
                         <Text style={text}>
                             If you don&apos;t want to change your password or didn&apos;t
                             request this, just ignore and delete this message.
                         </Text>
-                        <Text style={text}>
-                            To keep your account secure, please don&apos;t forward this email
-                            to anyone. See our Help Center for{" "}
-                            <Link style={anchor} href="https://dropbox.com">
-                                more security tips.
-                            </Link>
-                        </Text>
-                        <Text style={text}>Happy Dropboxing!</Text>
+                        <Text style={text}>Happy Learning!</Text>
                     </Section>
                 </Container>
             </Body>
@@ -55,7 +41,7 @@ export const DropboxResetPasswordEmail = ({ userFirstname, resetPasswordLink }) 
     );
 };
 
-export default DropboxResetPasswordEmail;
+export default ResetPassword;
 
 const main = {
     backgroundColor: "#f6f9fc",

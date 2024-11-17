@@ -9,6 +9,7 @@ import bcryptjs from "bcryptjs";
 import { Resend } from 'resend'
 import VerificationTemplate from '../../emails/verification-template';
 import { generateToken } from './utils';
+import ResetPassword from '@/emails/reset-password';
 
 export async function authenticate(prevState, formData) {
   try {
@@ -106,17 +107,45 @@ export async function forgotPassword(prevState, formData) {
   try {
     connectToDatabase();
 
-    const user = await Users.findOne({ email: formData.email })
-      if (!user) {
-        return "User with the provided email does not exist."
-      } 
+    const user = await Users.findOne({ email: formData.email });
+    
+    if (!user) {
+      return { success: false, message: "User with the provided email does not exist." }
+    }
 
-      const emailVerificationToken = generateToken();
+    const passwordResetToken = await generateToken();
 
-      
+    user.passwordResetToken = passwordResetToken;
+    await user.save();
+
+    await sendEmail({
+      to: formData.email,
+      subject: 'Mandarin Mastery - Reset your password',
+      react: React.createElement(ResetPassword, { username: user.username, passwordResetToken }),
+    })
+
+    return { success: true, message: "A password reset link has beent sent to your email, Please check your inbox" }
+
   } catch (error) {
-
+    console.error(error);
   }
 }
 
+export async function resetPassword(prevState, formData) {
+  try {
+    connectToDatabase();
+
+    const salt = bcryptjs.genSaltSync(10);
+    const user = await Users.findOne({ passwordResetToken: formData.resetToken });
+    user.passwordResetToken = null;
+    user.password = await bcryptjs.hash(formData.password, salt);
+
+    await user.save();
+
+    return { success: true, message: "Your password was reset successfully!" }
+
+  } catch (error) {
+    console.error(error);
+  }
+}
 
