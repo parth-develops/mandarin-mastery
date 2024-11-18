@@ -80,7 +80,6 @@ function ChapterCard({ chapter, user, index }) {
                 <h3>{chapter.title}</h3>
                 <p className="mb-2">Description</p>
                 <div>
-
                     {renderButton()}
                 </div>
             </div>
