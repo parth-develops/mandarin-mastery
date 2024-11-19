@@ -9,6 +9,7 @@ const translationSchema = new mongoose.Schema({
 const chapterSchema = new mongoose.Schema({
   slug: { type: String, required: true },
   title: { type: String, required: true },
+  description: { type: String, required: true },
   content: {
     minimum: [translationSchema],
     brave: [translationSchema],

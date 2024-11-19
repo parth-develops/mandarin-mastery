@@ -1,26 +1,17 @@
+import { fetchChaptersCount } from "@/app/lib/data";
 import ChapterCards from "@/app/ui/chapters/ChapterCards";
-import { fetchChapters } from "@/app/lib/data";
-import { auth } from "@/auth";
+import ChapterCardsSkeleton from "@/app/ui/skeletons/ChapterCardsSkeleton";
+import { Suspense } from "react";
 
 export default async function Chapters() {
-    const chapters = await fetchChapters();
-    const { user } = await auth();
-
-    const plainChapters = chapters.map(chapter => {
-        const plainChapter = chapter.toObject();
-
-        return {
-            id: plainChapter._id.toString(),
-            title: plainChapter.title,
-            content: plainChapter.content,
-            slug: plainChapter.slug,
-        };
-    });
+    const chaptersCount = await fetchChaptersCount();
 
     return (
         <div className="flex flex-col flex-1">
-            <div className="cards p-4 flex-1 flex gap-4 border rounded-lg shadow-sm">
-                <ChapterCards chapters={plainChapters} user={user} />
+            <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
+                <Suspense fallback={<ChapterCardsSkeleton count={chaptersCount} />}>
+                    <ChapterCards />
+                </Suspense>
             </div>
         </div>
     )

@@ -9,7 +9,7 @@ export const fetchChapters = async () => {
     try {
         await connectToDatabase();
 
-        const chapters = await Chapters.find({}, "slug title").exec();
+        const chapters = await Chapters.find({}, "slug title description").exec();
         return chapters;
     } catch (error) {
         console.error(error);
