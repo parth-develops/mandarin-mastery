@@ -18,21 +18,25 @@ export default function ChapterCompleteBtn({ userId, chapterId }) {
     const searchParams = useSearchParams();
     const router = useRouter();
 
-    async function updateSession(userId) {
-        const newUserSession = await fetchUserData(userId);
-        await update({ ...session, user: newUserSession });
-    }
-
     useEffect(() => {
-        if (searchParams.size > 0) {
-            if (searchParams.get("action") === "enroll") {
-                updateSession(user.id);
+        async function runEffect() {
+            try {
+                if (searchParams.size > 0) {
+                    if (searchParams.get("action") === "enroll") {
+                        const newUserSession = await fetchUserData(userId);
+                        await update({ ...session, user: newUserSession });
 
-                const currentUrl = window.location.pathname;
-                router.replace(currentUrl);
+                        const currentUrl = window.location.pathname;
+                        router.replace(currentUrl);
+                    }
+                }
+            } catch (error) {
+                console.error("Error in runEffect:", error);
             }
         }
-    }, [])
+
+        runEffect();
+    }, [searchParams])
 
     useEffect(() => {
         if (session && session.user) {

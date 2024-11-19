@@ -50,7 +50,7 @@ export const fetchUserChapter = async (userId) => {
     }
 }
 
-export const fetchUserData = async (userId) => {
+export const fetchUserData = async (userId) => { 
     try {
         await connectToDatabase();
         const user = await Users.findById(userId);
@@ -73,7 +73,6 @@ export const fetchUserData = async (userId) => {
             isPassed: quiz.isPassed,
             score: quiz.score,
         }));
-
         return {
             id: plainUser._id.toString(),
             email: plainUser.email,
