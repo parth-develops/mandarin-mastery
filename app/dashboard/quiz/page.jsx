@@ -1,16 +1,17 @@
-import { fetchQuizzes } from "@/app/lib/data";
+import { fetchQuizCount } from "@/app/lib/data";
 import QuizCards from "@/app/ui/quiz/QuizCards";
+import QuizCardsSkeleton from "@/app/ui/skeletons/QuizCardsSkeleton";
+import { Suspense } from "react";
 
 export default async function Quiz() {
-  const quizData = await fetchQuizzes();
+  const quizCount = await fetchQuizCount();
 
   return (
-    <div className="flex flex-1">
-      <div className="flex flex-col flex-1">
-        <h1 className="text-lg font-semibold md:text-2xl mb-4">Quizzes</h1>
-        <div className="cards p-4 flex-1 flex gap-4 border rounded-lg shadow-sm">
-          <QuizCards quizzes={quizData} />
-        </div>
+    <div className="flex flex-col flex-1">
+      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
+        <Suspense fallback={<QuizCardsSkeleton count={quizCount} />}>
+          <QuizCards />
+        </Suspense>
       </div>
     </div>
   )

@@ -63,7 +63,7 @@ export default function ChapterCard({ chapter, user, index }) {
         }
 
         return (
-            <div key={chapter.id} className="text-center p-4 rounded-xl shadow border h-full">
+            <div className="text-center p-4 rounded-xl shadow border h-full">
                 <div className="text-center pointer-events-none">
                     <Image src={IMAGES[index]} alt={index + 1} width={100} height={100} title={chapter.title} className="mx-auto" />
                 </div>

@@ -88,7 +88,7 @@ export const fetchUserData = async (userId) => {
 export const fetchQuizzes = async () => {
     try {
         await connectToDatabase();
-        const quizzes = await Quizzes.find({}, "chapter slug title").lean().exec();
+        const quizzes = await Quizzes.find({}, "chapter slug title description").lean().exec();
 
         if (!quizzes) {
             return null;
@@ -100,6 +100,7 @@ export const fetchQuizzes = async () => {
                 chapter: quiz.chapter,
                 slug: quiz.slug,
                 title: quiz.title,
+                description: quiz.description,
             }
         })
 

@@ -17,6 +17,7 @@ const quizSchema = new mongoose.Schema({
     questions: [questionSchema],
     slug: { type: String, required: true },
     title: { type: String, required: true },
+    description: { type: String, required: true },
 });
 
 let Quizzes;
