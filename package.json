@@ -34,7 +34,8 @@
     "resend": "^4.0.1-alpha.0",
     "sass": "^1.80.6",
     "tailwind-merge": "^2.3.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "use-sound": "^4.0.3"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.19",

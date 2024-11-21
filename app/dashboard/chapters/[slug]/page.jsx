@@ -1,5 +1,6 @@
 import { fetchChapterBySlug } from "@/app/lib/data"
 import ChapterCompleteBtn from "@/app/ui/chapters/ChapterCompleteBtn";
+import Sound from "@/app/ui/chapters/Sound";
 import { auth } from "@/auth";
 import {
     Table,
@@ -14,6 +15,8 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { TbBulb } from "react-icons/tb";
+
+const BARE_SOUNDS = ["hello.mp3"];
 
 export default async function ChapterPage({ params }) {
 
@@ -38,7 +41,7 @@ export default async function ChapterPage({ params }) {
                     <TableBody>
                         <tr><td className="font-bold py-3 text-lg">Bare Minimum</td></tr>
                         {
-                            chapterContent.minimum.map(point => (
+                            chapterContent.minimum.map((point, index) => (
                                 <TableRow key={point._id.toString()}>
                                     <TableCell>{point.english}</TableCell>
                                     <TableCell>
@@ -52,6 +55,9 @@ export default async function ChapterPage({ params }) {
                                                 </TooltipContent>
                                             </Tooltip>
                                         </TooltipProvider>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Sound audio={BARE_SOUNDS[0]} />
                                     </TableCell>
                                 </TableRow>
                             ))
