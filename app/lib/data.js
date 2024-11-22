@@ -50,7 +50,7 @@ export const fetchUserChapter = async (userId) => {
     }
 }
 
-export const fetchUserData = async (userId) => { 
+export const fetchUserData = async (userId) => {
     try {
         await connectToDatabase();
         const user = await Users.findById(userId);

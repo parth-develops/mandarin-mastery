@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { fetchUserData } from "@/app/lib/data";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from 'next-nprogress-bar';
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ChapterCompleteBtn({ userId, chapterId }) {
     const { data: session, update, status } = useSession();
@@ -47,11 +48,13 @@ export default function ChapterCompleteBtn({ userId, chapterId }) {
     const currentUserChapterIndex = userChapters?.findIndex(chap => chap.chapter === chapterId);
     const currentUserChapter = userChapters && userChapters[currentUserChapterIndex];
 
-    if (currentUserChapter?.isCompleted) {
+    if (currentUserChapter && currentUserChapter?.isCompleted) {
         return (
             <Badge className="ml-auto" title="You have completed this chapter" variant="success">Completed</Badge>
         )
-    } else {
+    }
+
+    if (currentUserChapter && !currentUserChapter.isCompleted) {
         const completeChapter = async (userId, chapterId) => {
             setIsLoading(true);
             await markChapterAsComplete(userId, chapterId);
@@ -69,4 +72,5 @@ export default function ChapterCompleteBtn({ userId, chapterId }) {
         )
     }
 
+    return <Skeleton className="ml-auto h-8 w-[130px]" />
 }
