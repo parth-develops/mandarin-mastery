@@ -1,49 +1,34 @@
-import { auth } from "@/auth";
+import { NextResponse } from "next/server";
+import { authMiddleware } from "./auth-edge"; // Path to your edge-compatible auth
 import {
     authRoutes,
     DEFAULT_REDIRECT_LOGIN_URL,
-    DEFAULT_REDIRECT_HOME_URL
-} from './routes';
+    DEFAULT_REDIRECT_HOME_URL,
+} from "./routes";
 
-export default auth((req) => {
-
+export default async function middleware(req) {
+    const { isAuthenticated } = await authMiddleware(req);
     const url = req.nextUrl;
     const route = req.nextUrl.pathname;
 
-    const isLoggedIn = !!req.auth;
-
-    function checkAuthRoute(authRoute) {
-        if (route.startsWith(authRoute)) {
-            return true;
+    // Redirect logged-in users away from auth pages
+    if (authRoutes.some((authRoute) => route.startsWith(authRoute))) {
+        if (isAuthenticated) {
+            return NextResponse.redirect(new URL(DEFAULT_REDIRECT_HOME_URL, url));
         }
-        return null;
+        return NextResponse.next();
     }
 
-    if (!!authRoutes.filter(checkAuthRoute).length) {
-        if (isLoggedIn) {
-            return Response.redirect(new URL(DEFAULT_REDIRECT_HOME_URL, url));
-        }
-        return null;
-    }
-
-    if (route.startsWith(...authRoutes)) {
-        if (isLoggedIn) {
-            return Response.redirect(new URL(DEFAULT_REDIRECT_HOME_URL, url));
-        }
-        return null;
-    }
-
+    // Protect routes except public pages
     if (!(route === "/" || route === "/signin" || route === "/signup")) {
-        if (!isLoggedIn) {
-            return Response.redirect(new URL(DEFAULT_REDIRECT_LOGIN_URL, url));
+        if (!isAuthenticated) {
+            return NextResponse.redirect(new URL(DEFAULT_REDIRECT_LOGIN_URL, url));
         }
-        return null;
     }
 
-    return null;
-
-})
+    return NextResponse.next();
+}
 
 export const config = {
-    matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
+    matcher: ["/((?!api|_next/static|_next/image|.*\\.png$).*)"],
 };
