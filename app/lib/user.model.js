@@ -15,8 +15,9 @@ const userSchema = new mongoose.Schema({
   passwordResetToken: { type: String, default: "" },
   password: {
     type: String,
-    trim: true,
-    required: true,
+    required: function () {
+      return !this.discordId; 
+    },
   },
   discordId: { type: String, unique: true, sparse: true },
   userImg: { type: String },
