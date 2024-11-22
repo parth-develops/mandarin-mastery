@@ -4,7 +4,6 @@ import ChapterCard from "./ChapterCard";
 
 export default async function ChapterCards() {
     const chapters = await fetchChapters();
-    console.log("CL", chapters.length);
     
     const { user } = await auth();
 
