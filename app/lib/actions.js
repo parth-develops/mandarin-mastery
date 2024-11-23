@@ -13,8 +13,9 @@ import ResetPassword from '@/emails/reset-password';
 
 export async function authenticate(prevState, formData) {
   try {
+    const { email, password } = formData;
     await connectToDatabase();
-    await signIn('credentials', { ...formData, redirectTo: "/dashboard" });
+    await signIn('credentials', { email, password });
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
@@ -108,7 +109,7 @@ export async function forgotPassword(prevState, formData) {
     connectToDatabase();
 
     const user = await Users.findOne({ email: formData.email });
-    
+
     if (!user) {
       return { success: false, message: "User with the provided email does not exist." }
     }
