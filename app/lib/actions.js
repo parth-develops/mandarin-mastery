@@ -14,7 +14,9 @@ import ResetPassword from '@/emails/reset-password';
 export async function authenticate(prevState, formData) {
   try {
     const { email, password } = formData;
-    await signIn('credentials', { email, password });
+    await signIn('credentials', { email, password, redirect: false });
+    
+    return null;
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
