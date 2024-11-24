@@ -23,7 +23,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
 
                 if (credentials.email) {
                     user = await Users.findOne({ email: credentials.email });
-                    if(!user.emailVerified) {
+                    if (!user.emailVerified) {
                         throw new InvalidLoginError();
                     }
                 }
@@ -126,6 +126,19 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
             }
 
             return false;
+        },
+        authorized({ auth, request }) {
+            const isLoggedIn = auth?.user;
+            const isOnDashboard = request.nextUrl.pathname.startsWith("/dashboard");
+
+            if (isOnDashboard) {
+                if (isLoggedIn) return true;
+                return false;
+            } else if (isLoggedIn) {
+                return Response.redirect(new URL("/dashboard", request.nextUrl))
+            }
+
+            return true;
         }
     },
 });
