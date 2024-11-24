@@ -60,6 +60,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
         signIn: "/signin",
     },
     secret: process.env.AUTH_SECRET,
+    useSecureCookies: process.env.NODE_ENV === 'production',
     callbacks: {
         async jwt({ token, user, trigger, session }) {
             if (user) {

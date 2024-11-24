@@ -16,6 +16,11 @@ export async function authenticate(prevState, formData) {
     const { email, password } = formData;
     await signIn('credentials', { email, password, redirect: true, callbackUrl: process.env.AUTH_URL + '/dashboard', });
   } catch (error) {
+    if (error?.digest?.startsWith('NEXT_REDIRECT')) {
+      console.error('Redirect error:', error);
+      return 'Redirect issue occurred.';
+    }
+
     if (error instanceof AuthError) {
       switch (error.type) {
         case 'CredentialsSignin':
