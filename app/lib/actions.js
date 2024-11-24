@@ -14,8 +14,8 @@ import ResetPassword from '@/emails/reset-password';
 export async function authenticate(prevState, formData) {
   try {
     const { email, password } = formData;
-    const result = await signIn('credentials', { email, password, redirect: false });
-    console.log("The result", result);
+    const result = await signIn('credentials', { email, password, redirect: false, callbackUrl: '/dashboard' });
+    console.log('SignIn result:', JSON.stringify(result, null, 2));
 
     if (result?.error) {
       console.log(result.error);
