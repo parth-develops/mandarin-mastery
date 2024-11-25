@@ -15,24 +15,36 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { FaDiscord } from "react-icons/fa";
+import { signIn } from 'next-auth/react';
+import { useState } from 'react';
 // import { redirect } from 'next/navigation';
+import { AuthError } from 'next-auth';
 
 export default function SignInForm() {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const [errorMessage, dispatch] = useFormState(authenticate, undefined);
+    const [errorMessage, setErrorMessage] = useState(null);
 
-    const action = handleSubmit(async (data) => {
+    const handleSignIn = async (formData) => {
         try {
-            const result = await dispatch(data);
-            console.log("result", result);
+            const signInResult = await signIn("credentials", { email: formData.email, password: formData.password, redirect: true, callbackUrl: "/dashboard" });
+            console.log("signInResult", signInResult);
 
-            // if (!result) {
-            //     redirect("/dashboard");
-            // }
         } catch (error) {
-            console.error('Handle submit error:', error);
+            if (error instanceof AuthError) {
+                switch (error.type) {
+                    case 'CredentialsSignin':
+                        if (error.code === "Email not verified") {
+                            return error.code;
+                        }
+                        return 'Invalid credentials.';
+                    default:
+                        return 'Something went wrong.';
+                }
+            }
+            console.error('Authentication error:', error);
+            throw error;
         }
-    });
+    }
 
     return (
         <>
@@ -44,7 +56,7 @@ export default function SignInForm() {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <form action={action}>
+                    <form onSubmit={handleSubmit(handleSignIn)}>
                         <div className="grid gap-4">
                             <div className="grid gap-2">
                                 <Label htmlFor="email">Email</Label>
