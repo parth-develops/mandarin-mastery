@@ -1,7 +1,7 @@
 import { fetchChapterBySlug } from "@/app/lib/data"
 import ChapterCompleteBtn from "@/app/ui/chapters/ChapterCompleteBtn";
 import Sound from "@/app/ui/chapters/Sound";
-import { auth } from "@/auth";
+import { auth } from "@/app/auth";
 import {
     Table,
     TableBody,

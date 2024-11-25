@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { authMiddleware } from "./auth-edge"; // Path to your edge-compatible auth
+import { authMiddleware } from "./app/auth-edge"; // Path to your edge-compatible auth
 import {
     authRoutes,
     DEFAULT_REDIRECT_LOGIN_URL,

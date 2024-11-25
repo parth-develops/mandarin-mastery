@@ -1,7 +1,7 @@
 "use server"
 
 import React from 'react';
-import { signIn, signOut } from '@/auth';
+import { signIn, signOut } from '@/app/auth';
 import { AuthError } from 'next-auth';
 import { connectToDatabase } from '../utils/db';
 import Users from './user.model';
@@ -14,13 +14,8 @@ import ResetPassword from '@/emails/reset-password';
 export async function authenticate(prevState, formData) {
   try {
     const { email, password } = formData;
-    await signIn('credentials', { email, password, redirect: true, callbackUrl: process.env.AUTH_URL + '/dashboard', });
+    await signIn('credentials', { email, password, redirect: true, redirectTo: "/dashboard" });
   } catch (error) {
-    if (error?.digest?.startsWith('NEXT_REDIRECT')) {
-      console.error('Redirect error:', error);
-      return 'Redirect issue occurred.';
-    }
-
     if (error instanceof AuthError) {
       switch (error.type) {
         case 'CredentialsSignin':

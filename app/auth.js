@@ -10,30 +10,6 @@ class InvalidLoginError extends CredentialsSignin {
 }
 
 export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
-    cookies: {
-        sessionToken: {
-            name: process.env.NODE_ENV === 'production'
-                ? '__Secure-authjs.session-token'
-                : 'authjs.session-token',
-            options: {
-                httpOnly: true,
-                sameSite: 'lax',
-                path: '/',
-                secure: process.env.NODE_ENV === 'production'
-            }
-        },
-        callbackUrl: {
-            name: process.env.NODE_ENV === 'production'
-                ? '__Secure-authjs.callback-url'
-                : 'authjs.callback-url',
-            options: {
-                sameSite: 'lax',
-                path: '/',
-                secure: process.env.NODE_ENV === 'production'
-            }
-        }
-    },
-    trustHost: true,
     providers: [
         CredentialsProvider({
             credentials: {
@@ -84,7 +60,6 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
         signIn: "/signin",
     },
     secret: process.env.AUTH_SECRET,
-    useSecureCookies: process.env.NODE_ENV === 'production',
     callbacks: {
         async jwt({ token, user, trigger, session }) {
             if (user) {

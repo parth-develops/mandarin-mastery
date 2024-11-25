@@ -15,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { FaDiscord } from "react-icons/fa";
+// import { redirect } from 'next/navigation';
 
 export default function SignInForm() {
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -22,7 +23,12 @@ export default function SignInForm() {
 
     const action = handleSubmit(async (data) => {
         try {
-            await dispatch(data);
+            const result = await dispatch(data);
+            console.log("result", result);
+
+            // if (!result) {
+            //     redirect("/dashboard");
+            // }
         } catch (error) {
             console.error('Handle submit error:', error);
         }

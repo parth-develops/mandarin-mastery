@@ -13,7 +13,7 @@ import { MdOutlineQuiz } from "react-icons/md";
 import { IoMdTime } from "react-icons/io";
 import { RiProgress5Line } from "react-icons/ri";
 import { fetchChaptersCount, fetchQuizCount } from "@/app/lib/data";
-import { auth } from "@/auth";
+import { auth } from "@/app/auth";
 
 export default async function StatsCards() {
     const totalChapters = await fetchChaptersCount();
