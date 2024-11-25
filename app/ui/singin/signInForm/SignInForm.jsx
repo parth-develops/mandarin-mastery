@@ -31,11 +31,7 @@ export default function SignInForm() {
             console.log("signInResult", signInResult);
 
             if (signInResult.ok) {
-                if (window.location.href === signInResult.url) {
-                    router.push("/dashboard");
-                } else {
-                    router.push(signInResult.url)
-                }
+                router.push("/dashboard");
             }
         } catch (error) {
             if (error instanceof AuthError) {
