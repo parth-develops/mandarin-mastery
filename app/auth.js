@@ -10,6 +10,11 @@ class InvalidLoginError extends CredentialsSignin {
 }
 
 export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
+    cookies: {
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true
+    },
     providers: [
         CredentialsProvider({
             credentials: {
