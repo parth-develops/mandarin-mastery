@@ -7,24 +7,24 @@ import {
 } from "./routes";
 
 export default async function middleware(req) {
-    const { isAuthenticated } = await authMiddleware(req);
-    const url = req.nextUrl;
-    const route = req.nextUrl.pathname;
+    // const { isAuthenticated } = await authMiddleware(req);
+    // const url = req.nextUrl;
+    // const route = req.nextUrl.pathname;
 
-    // Redirect logged-in users away from auth pages
-    if (authRoutes.some((authRoute) => route.startsWith(authRoute))) {
-        if (isAuthenticated) {
-            return NextResponse.redirect(new URL(DEFAULT_REDIRECT_HOME_URL, url));
-        }
-        return NextResponse.next();
-    }
+    // // Redirect logged-in users away from auth pages
+    // if (authRoutes.some((authRoute) => route.startsWith(authRoute))) {
+    //     if (isAuthenticated) {
+    //         return NextResponse.redirect(new URL(DEFAULT_REDIRECT_HOME_URL, url));
+    //     }
+    //     return NextResponse.next();
+    // }
 
-    // Protect routes except public pages
-    if (!(route === "/" || route === "/signin" || route === "/signup")) {
-        if (!isAuthenticated) {
-            return NextResponse.redirect(new URL(DEFAULT_REDIRECT_LOGIN_URL, url));
-        }
-    }
+    // // Protect routes except public pages
+    // if (!(route === "/" || route === "/signin" || route === "/signup")) {
+    //     if (!isAuthenticated) {
+    //         return NextResponse.redirect(new URL(DEFAULT_REDIRECT_LOGIN_URL, url));
+    //     }
+    // }
 
     return NextResponse.next();
 }
