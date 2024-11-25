@@ -10,7 +10,7 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import Image from "next/image";
-import { auth } from "@/auth";
+import { auth } from "@/app/auth";
 import LogOut from "./LogOut";
 import { logout } from "@/app/lib/actions";
 

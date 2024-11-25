@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { auth } from "@/auth";
+import { auth } from "@/app/auth";
 
 import SideNav from "../ui/common/sideNav/SideNav";
 import Header from "../ui/common/header/Header";
