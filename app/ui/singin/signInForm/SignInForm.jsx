@@ -17,18 +17,26 @@ import { Label } from "@/components/ui/label"
 import { FaDiscord } from "react-icons/fa";
 import { signIn } from 'next-auth/react';
 import { useState } from 'react';
-// import { redirect } from 'next/navigation';
 import { AuthError } from 'next-auth';
+import { useRouter } from 'next/navigation'
 
 export default function SignInForm() {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [errorMessage, setErrorMessage] = useState(null);
+    const router = useRouter()
 
     const handleSignIn = async (formData) => {
         try {
-            const signInResult = await signIn("credentials", { email: formData.email, password: formData.password, redirect: true, callbackUrl: "/dashboard" });
+            const signInResult = await signIn("credentials", { email: formData.email, password: formData.password, redirect: false });
             console.log("signInResult", signInResult);
 
+            if (signInResult.ok) {
+                if (window.location.href === signInResult.url) {
+                    router.push("/dashboard");
+                } else {
+                    router.push(signInResult.url)
+                }
+            }
         } catch (error) {
             if (error instanceof AuthError) {
                 switch (error.type) {
