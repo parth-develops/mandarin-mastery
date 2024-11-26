@@ -4,17 +4,14 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import DiscordProvider from "next-auth/providers/discord";
 import Users from "@/app/lib/user.model";
 import bcryptjs from "bcryptjs";
+import { authConfig } from './authConfig';
 
 class InvalidLoginError extends CredentialsSignin {
     code = "Email not verified"
 }
 
 export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
-    cookies: {
-        httpOnly: true,
-        sameSite: 'none',
-        secure: true
-    },
+    ...authConfig,
     providers: [
         CredentialsProvider({
             credentials: {
@@ -61,10 +58,6 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
     session: {
         strategy: "jwt",
     },
-    pages: {
-        signIn: "/signin",
-    },
-    secret: process.env.AUTH_SECRET,
     callbacks: {
         async jwt({ token, user, trigger, session }) {
             if (user) {
