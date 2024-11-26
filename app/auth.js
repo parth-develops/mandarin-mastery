@@ -53,9 +53,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
         DiscordProvider({
             clientId: process.env.DISCORD_CLIENT_ID,
             clientSecret: process.env.DISCORD_CLIENT_SECRET,
-            authorization: {
-                params: { scope: "identify guilds" },
-            },
+            authorization: "https://discord.com/api/oauth2/authorize?scope=identify+guilds+email"
         }),
     ],
     session: {
