@@ -25,7 +25,10 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
 
                 if (credentials.email) {
                     user = await Users.findOne({ email: credentials.email });
-                    if (!user.emailVerified) {
+                    if (!user) {
+                        return null;
+                    }
+                    if (!!user && !user.emailVerified) {
                         throw new InvalidLoginError();
                     }
                 }

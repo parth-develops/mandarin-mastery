@@ -48,7 +48,7 @@ export default function SignInForm() {
                                     placeholder="m@example.com"
                                     {...register("email", { required: true })}
                                 />
-                                {errors.email && <span className="error text-red-500">Email is required</span>}
+                                {errors.email && <span className="error text-sm text-red-500">Email is required</span>}
                             </div>
                             <div className="grid gap-2">
                                 <div className="flex items-center">
@@ -58,7 +58,7 @@ export default function SignInForm() {
                                     </Link>
                                 </div>
                                 <Input id="password" type="password" {...register("password", { required: true })} />
-                                {errors.password && <span className="error text-red-500">Password is required</span>}
+                                {errors.password && <span className="error text-sm text-red-500">Password is required</span>}
                                 <div
                                     className="flex items-end space-x-1"
                                     aria-live="polite"

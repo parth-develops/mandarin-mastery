@@ -24,7 +24,7 @@ export default async function ResetPassword({ searchParams }) {
                         </div>
                         <div className="flex justify-center">
                             <Link
-                                href="/login"
+                                href="/signin"
                                 className="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
                                 prefetch={false}
                             >

@@ -84,7 +84,7 @@ export default function ResetPasswordForm({ token }) {
                     <DialogHeader>
                         <DialogTitle className="mb-4">Next Step</DialogTitle>
                         <DialogDescription>
-                            {actionResponse.message} Click here to <Link href="/login" className='underline text-primary'>login</Link>
+                            {actionResponse.message} Click here to <Link href="/signin" className='underline text-primary'>login</Link>
                         </DialogDescription>
                     </DialogHeader>
                 </DialogContent>
