@@ -39,7 +39,7 @@ export default async function ChapterTable({ slug }) {
     const { user } = await auth();
     const chapter = await fetchChapterBySlug(slug);
     const chapterContent = chapter.content.toObject();
-
+    
     return (
         <>
             <h1 className="text-lg font-semibold md:text-2xl mb-4">{chapter.title}</h1>
@@ -75,7 +75,7 @@ export default async function ChapterTable({ slug }) {
                                             {
                                                 BARE_SOUNDS[index]?.map((sound, soundIndex) => {
                                                     return <React.Fragment key={sound}>
-                                                        <Sound id={sound} key={sound} audio={sound} />
+                                                        <Sound audio={sound} />
                                                         {BARE_SOUNDS[index].length > 1 && soundIndex !== BARE_SOUNDS[index].length - 1 ? <span key={sound + soundIndex}>or</span> : ""}
                                                     </React.Fragment>
                                                 })
@@ -107,7 +107,7 @@ export default async function ChapterTable({ slug }) {
                                             {
                                                 BRAVE_SOUNDS[index]?.map((sound, soundIndex) => {
                                                     return <React.Fragment key={sound}>
-                                                        <Sound id={sound} key={sound} audio={sound} />
+                                                        <Sound audio={sound} />
                                                         {BRAVE_SOUNDS[index].length > 1 && soundIndex === 0 ? <span key={sound + soundIndex}>or</span> : ""}
                                                     </React.Fragment>
                                                 })
@@ -140,7 +140,7 @@ export default async function ChapterTable({ slug }) {
 
                                                 MORE_SOUNDS[index]?.map((sound, soundIndex) => {
                                                     return <React.Fragment key={sound}>
-                                                        <Sound id={sound} key={sound} audio={sound} />
+                                                        <Sound audio={sound} />
                                                         {MORE_SOUNDS[index].length > 1 && soundIndex === 0 ? <span key={sound + soundIndex}>or</span> : ""}
                                                     </React.Fragment>
                                                 })
