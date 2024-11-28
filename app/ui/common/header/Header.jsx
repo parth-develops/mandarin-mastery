@@ -15,11 +15,12 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { MdOutlineQuiz } from "react-icons/md";
 
 export default function Header({ children }) {
     const pathname = usePathname();
+    const [sheetOpen, setSheetOpen] = useState(false);
 
     const generateBreadcrumbs = () => {
         const pathArray = pathname.split('/').filter((path) => path);
@@ -34,22 +35,23 @@ export default function Header({ children }) {
 
     return (
         <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
-            <Sheet>
+            <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
                 <SheetTrigger asChild>
                     <Button
                         variant="outline"
                         size="icon"
-                        className="shrink-0 md:hidden"
+                        className="shrink-0 md:hidden border-input"
                     >
                         <LuMenu size={16} />
                         <span className="sr-only">Toggle navigation menu</span>
                     </Button>
                 </SheetTrigger>
-                <SheetContent side="left" className="flex flex-col">
-                    <nav className="grid gap-2 text-lg font-medium p-4 md:p-6">
+                <SheetContent side="left" className="flex flex-col ">
+                    <nav className="grid gap-2 font-medium text-sm p-4 md:p-6">
                         <Link
                             href="/dashboard"
                             className="flex items-center gap-2 text-lg font-semibold"
+                            onClick={() => setSheetOpen(false)}
                         >
                             Mandarin Mastery
                             <span className="sr-only">Mandarin Mastery</span>
@@ -60,6 +62,7 @@ export default function Header({ children }) {
                                 "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground",
                                 { "bg-muted": pathname === "/dashboard" },
                             )}
+                            onClick={() => setSheetOpen(false)}
                         >
                             <FiHome size={16} /> Dashboard
                         </Link>
@@ -69,6 +72,7 @@ export default function Header({ children }) {
                                 "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground",
                                 { "bg-muted": pathname.includes("chapters") },
                             )}
+                            onClick={() => setSheetOpen(false)}
                         >
                             <GoBook size={16} /> Chapters
                         </Link>
@@ -78,6 +82,7 @@ export default function Header({ children }) {
                                 "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground",
                                 { "bg-muted": pathname.includes("quiz") },
                             )}
+                            onClick={() => setSheetOpen(false)}
                         >
                             <MdOutlineQuiz size={16} /> Quiz
                         </Link>

@@ -2,7 +2,7 @@
 
 import { useFormStatus } from 'react-dom';
 import { useForm } from "react-hook-form";
-import { createUser } from "@/app/lib/actions";
+import { createUser, discordLogin } from "@/app/lib/actions";
 
 import { Button } from "@/components/ui/button"
 import {
@@ -24,6 +24,7 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog"
 import { useState } from 'react';
+import { FaDiscord } from 'react-icons/fa';
 
 export default function SignupForm() {
     const [dialogOpen, setDialogOpen] = useState(false);
@@ -119,5 +120,20 @@ export default function SignupForm() {
 function CreateAccountButton() {
     const { pending } = useFormStatus();
 
-    return <Button loading={pending ? true : false} type="submit" className="w-full">Create account</Button>
+    return <>
+        <Button loading={pending ? true : false} type="submit" className="w-full">Create account</Button>
+        <div className="relative my-2">
+            <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground">
+                    Or continue with
+                </span>
+            </div>
+        </div>
+        <Button disabled={pending ? true : false} aria-disabled={pending} type="button" variant="outline" className={`w-full`} onClick={() => discordLogin()}>
+            <FaDiscord size={20} className='mr-1' /> Discord
+        </Button>
+    </>
 }

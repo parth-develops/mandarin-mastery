@@ -8,16 +8,10 @@ import {
     TableCell,
     TableRow,
 } from "@/components/ui/table";
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from "@/components/ui/tooltip"
-import { TbBulb } from "react-icons/tb";
 import chapter1Sounds from "@/data/chapter1Sounds";
 import chapter2Sounds from "@/data/chapter2Sounds";
 import React from "react";
+import ChinesePinyin, { Hint } from "./ChinesePinyin";
 
 export default async function ChapterTable({ slug }) {
     let chapterSounds;
@@ -39,13 +33,13 @@ export default async function ChapterTable({ slug }) {
     const { user } = await auth();
     const chapter = await fetchChapterBySlug(slug);
     const chapterContent = chapter.content.toObject();
-    
+
     return (
         <>
             <h1 className="text-lg font-semibold md:text-2xl mb-4">{chapter.title}</h1>
-            <div className="flex items-center mb-2">
-                <div className="flex items-center">
-                    <TbBulb size={24} className="mr-1" /> Hover the chinese text to see the pinyin
+            <div className="flex items-center mb-2 flex-wrap lg:flex-nowrap">
+                <div className="flex items-center mb-3 lg:mb-0">
+                    <Hint />
                 </div>
                 <ChapterCompleteBtn userId={user.id} chapterId={chapter.id} />
             </div>
@@ -53,22 +47,13 @@ export default async function ChapterTable({ slug }) {
 
                 <Table className="mb-5">
                     <TableBody>
-                        <tr><td className="font-bold py-3 text-lg">Bare Minimum</td></tr>
+                        <tr><td className="font-bold py-3 text-lg leading-[1.2] whitespace-nowrap">Bare Minimum</td></tr>
                         {
                             chapterContent.minimum.map((point, index) => (
                                 <TableRow key={point.english + index} id={point.english + index}>
                                     <TableCell>{point.english}</TableCell>
-                                    <TableCell>
-                                        <TooltipProvider>
-                                            <Tooltip>
-                                                <TooltipTrigger>
-                                                    {point.chinese}
-                                                </TooltipTrigger>
-                                                <TooltipContent side="right">
-                                                    <p>{point.pinyin}</p>
-                                                </TooltipContent>
-                                            </Tooltip>
-                                        </TooltipProvider>
+                                    <TableCell className="whitespace-nowrap">
+                                        <ChinesePinyin chineseText={point.chinese} pinyinText={point.pinyin} />
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex items-center justify-center gap-3">
@@ -85,22 +70,13 @@ export default async function ChapterTable({ slug }) {
                                 </TableRow>
                             ))
                         }
-                        <tr><td className="font-bold pt-5 pb-3 text-lg">For brave ones</td></tr>
+                        <tr><td className="font-bold pt-5 pb-3 text-lg leading-[1.2] whitespace-nowrap">For brave ones</td></tr>
                         {
                             chapterContent.brave.map((point, index) => (
                                 <TableRow key={point.english + index} id={point.english + index}>
                                     <TableCell>{point.english}</TableCell>
-                                    <TableCell>
-                                        <TooltipProvider>
-                                            <Tooltip>
-                                                <TooltipTrigger>
-                                                    {point.chinese}
-                                                </TooltipTrigger>
-                                                <TooltipContent side="right">
-                                                    <p>{point.pinyin}</p>
-                                                </TooltipContent>
-                                            </Tooltip>
-                                        </TooltipProvider>
+                                    <TableCell className="whitespace-nowrap">
+                                        <ChinesePinyin chineseText={point.chinese} pinyinText={point.pinyin} />
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex items-center justify-center gap-3">
@@ -117,22 +93,13 @@ export default async function ChapterTable({ slug }) {
                                 </TableRow>
                             ))
                         }
-                        <tr><td className="font-bold pt-5 pb-3 text-lg">For those who want more</td></tr>
+                        <tr><td className="font-bold pt-5 pb-3 text-lg leading-[1.2] whitespace-nowrap">For those who want more</td></tr>
                         {
                             chapterContent.more.map((point, index) => (
                                 <TableRow key={point.english + index} id={point.english + index}>
                                     <TableCell>{point.english}</TableCell>
-                                    <TableCell>
-                                        <TooltipProvider>
-                                            <Tooltip>
-                                                <TooltipTrigger>
-                                                    {point.chinese}
-                                                </TooltipTrigger>
-                                                <TooltipContent side="right">
-                                                    <p>{point.pinyin}</p>
-                                                </TooltipContent>
-                                            </Tooltip>
-                                        </TooltipProvider>
+                                    <TableCell className="whitespace-nowrap">
+                                        <ChinesePinyin chineseText={point.chinese} pinyinText={point.pinyin} />
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex items-center justify-center gap-3">
