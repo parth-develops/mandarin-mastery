@@ -6,6 +6,13 @@ const montserrat = Montserrat({ subsets: ["latin"] });
 export const metadata = {
   title: "Mandarin Mastery: Your Personalized Chinese Learning Platform",
   description: "Welcome to Mandarin Mastery, your ultimate destination for mastering Mandarin Chinese in an interactive and engaging way! Mandarin Mastery is a web application designed to make learning Mandarin fun, efficient, and personalized. Whether you're a beginner or looking to improve your existing skills, Mandarin Mastery has something for everyone.",
+  openGraph: {
+    title: "Welcome to Mandarin Mastery, your ultimate destination for mastering Mandarin Chinese in an interactive and engaging way! Mandarin Mastery is a web application designed to make learning Mandarin fun, efficient, and personalized. Whether you're a beginner or looking to improve your existing skills, Mandarin Mastery has something for everyone.",
+    description: "",
+    images: [
+      { url: "/ogimg.jpg" }
+    ]
+  }
 };
 
 export default function RootLayout({ children }) {
